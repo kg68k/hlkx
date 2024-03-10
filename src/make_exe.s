@@ -1,4 +1,4 @@
-		.title	HLK/ev (make_exe.s - make executable file module)
+		.title	make executable file module
 
 
 * Include File -------------------------------- *

@@ -1,8 +1,13 @@
-# Makefile for HLK evolution
+# Makefile for HLKX
 
-AS	= has060
-ASFLAGS	= -c4 -s__CRLF__
-LD	= hlk
+AS = has060
+ASFLAGS = -c4 -s__CRLF__
+
+ifeq ($(findstring hlkx,$(LD)),hlkx)
+USE_HLKX = true
+else
+LD = hlk
+endif
 
 U8TOSJ = u8tosj
 
@@ -12,24 +17,23 @@ SRC_DIR = ../src
 
 #
 
-HLK_R	= hlk.r
-HLK_X	= hlk.x
+HLK_R = hlkx.r
+HLK_X = hlkx.x
 
 #
 
-SRCS	= main.s getarg.o analyze.o label.o object.o \
-	  make_exe.o make_map.o roffset.o file.o string.o
-OBJS	= $(SRCS:.s=.o)
+SRCS = main.s getarg.o analyze.o label.o object.o make_exe.o make_map.o roffset.o file.o string.o
+OBJS = $(SRCS:.s=.o)
 
-TXTS	= hlkev.txt kaiseki.txt CHANGELOG.txt
+TXTS = hlkx.txt kaiseki.txt CHANGELOG.txt
 
-HLK_ZIP	= hlkev.zip
+HLK_ZIP	= hlkx.zip
 
 #
 
 .PHONY: all archive
 
-all: $(HLK_R)
+all: $(if $(USE_HLKX),$(HLK_R),$(HLK_X))
 
 archive: $(HLK_ZIP)
 
@@ -39,7 +43,7 @@ $(HLK_ZIP): $(HLK_R) $(TXTS)
 	rm -f $@
 	zip -9 $@ $^
 
-hlkev.txt: $(SRC_DIR)/../hlkev.txt
+hlkx.txt: $(SRC_DIR)/../hlkx.txt
 	$(U8TOSJ) < $^ > $@
 
 kaiseki.txt: $(SRC_DIR)/../kaiseki.txt

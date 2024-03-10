@@ -1,4 +1,4 @@
-		.title	HLK/ev (getarg.s - get argument module)
+		.title	get argument module
 
 
 * Include File -------------------------------- *

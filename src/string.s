@@ -1,4 +1,4 @@
-		.title		HLK/ev (string.s - string control module)
+		.title		string control module
 
 
 * Include File -------------------------------- *

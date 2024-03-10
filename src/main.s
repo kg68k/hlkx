@@ -1,10 +1,6 @@
-		.title		HLK/ev (main.s - main control module)
+		.title		main control module
 
-PROGRAM:	.reg		'HLK evolution'
-VERSION:	.reg		'3.01'
-PATCHLEVEL:	.reg		'+18'
-PATCHDATE:	.reg		'2023-07-11'
-PATCHAUTHOR:	.reg		'TcbnErik'
+VERSION:	.reg	'0.0.0'
 
 
 * Include File -------------------------------- *
@@ -1863,12 +1859,13 @@ hex_table::	.dc.b		'0123456789abcdef'
 
 align_size::	.dc.l		ALIGN_DEFAULT
 
-*title_msg:	.dc.b		'X68k SILK Hi-Speed Linker v3.01 Copyright 1989-94 SALT',CRLF
-title_msg:	.dc.b		PROGRAM,' version ',VERSION,PATCHLEVEL
-ver_msg_end:	.dc.b		' Copyright 1989-94 SALT, ',PATCHDATE,' ',PATCHAUTHOR,'.',CRLF
+title_msg:	.dc.b		'HLKX ',VERSION
+ver_msg_end:	.dc.b		' Copyright 2024 TcbnErik',CRLF
+		.dc.b		'  based on '
+		.dc.b		'X68k SILK Hi-Speed Linker v3.01 Copyright 1989-94 SALT',CRLF
 		.dc.b		0
 
-usage_msg:	.dc.b		'usege: hlk [switch] file [+file] ...',CRLF
+usage_msg:	.dc.b		'usege: hlkx [switch] file [+file] ...',CRLF
 		.dc.b		'	-a / -an	実行ファイルの拡張子省略時に .x を付けない',CRLF
 		.dc.b		'	-b num		ベースアドレスの設定',CRLF
 		.dc.b		'	-d label=num	シンボルの定義',CRLF

@@ -1,4 +1,4 @@
-		.title	HLK/ev (analyze.s - analize object module)
+		.title	analize object module
 
 
 * Include File -------------------------------- *

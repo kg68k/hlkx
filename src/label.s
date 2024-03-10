@@ -1,4 +1,4 @@
-		.title		HLK/ev (label.s - label control module)
+		.title		label control module
 
 
 * Include File -------------------------------- *

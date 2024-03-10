@@ -1,5 +1,5 @@
-# HLK evolution
-SILK Hi-Speed Linker v3.01の改造版です。
+# HLKX
+SILK Hi-Speed Linker v3.01の改造版、HLK evolutionの後継バージョンです。
 無保証につき各自の責任で使用して下さい。
 
 
@@ -26,7 +26,7 @@ UTF-8のままでは正しくビルドできませんので注意してくださ
 
 ## License
 HLKはそると氏の著作物です。
-HLK evolutionにおける改造部分の著作権は私にあります。
+HLKXにおける改造部分の著作権は私にあります。
 
 配布に関しては、そると氏の意を汲み
 
@@ -41,5 +41,5 @@ HLK evolutionにおける改造部分の著作権は私にあります。
 
 
 ## Author
-TcbnErik / 立花@桑島技研
-https://github.com/kg68k/hlk-ev
+TcbnErik / 立花@桑島技研  
+https://github.com/kg68k/hlkx

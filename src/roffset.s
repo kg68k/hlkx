@@ -1,4 +1,4 @@
-		.title	HLK/ev (roffset.s - get roffset table size)
+		.title	get roffset table size
 
 
 * Include File -------------------------------- *

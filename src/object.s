@@ -1,4 +1,4 @@
-		.title		HLK/ev (object.s - object link, init & etc. module)
+		.title		object link, init & etc. module
 
 
 * Include File -------------------------------- *
