@@ -1,7 +1,7 @@
 # Makefile for HLKX
 
 AS = has060
-ASFLAGS = -c4 -s__CRLF__
+ASFLAGS = -c4
 
 ifeq ($(findstring hlkx,$(LD)),hlkx)
 USE_HLKX = true

@@ -755,16 +755,16 @@ print_usage:
 
 
 print_version:
-		lea		(ver_msg_end,pc),a0
-	.ifdef	__CRLF__
-		move.b		#CR,(a0)+
-	.endif
-		move.b		#LF,(a0)+
-		clr.b		(a0)
-		pea		(title_msg,pc)
-		DOS		_PRINT
-		addq.l		#4,sp
-		bra		main_end
+  lea (ver_msg_end,pc),a0
+  lea (crlf,pc),a1
+  @@:
+    move.b (a1)+,(a0)+
+  bne @b
+
+  pea (title_msg,pc)
+  DOS _PRINT
+  addq.l #4,sp
+  bra main_end
 
 
 *------------------------------------------------------------------------------

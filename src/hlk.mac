@@ -13,10 +13,10 @@ CR:		.equ		$0d
 EOF:		.equ		$1a
 SPACE:		.equ		$20
 
-		.ifdef		__CRLF__
-CRLF:		.reg		CR,LF
-		.else
+		.ifdef		NEWLINE_LF
 CRLF:		.equ		LF
+		.else
+CRLF:		.reg		CR,LF
 		.endif
 
 STDERR:		.equ		2
