@@ -334,7 +334,6 @@ make_exe_l3:
 		bsr		get_com_no
 		bmi		make_exe_err		;unknown command
 
-		add		d0,d0
 		lea		(jump_table,pc),a3
 		move		(a3,d0.w),d0
 		jsr		(a3,d0.w)		;d1.w = command code

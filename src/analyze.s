@@ -23,9 +23,11 @@
 *	out:	d0.l	ステータス
 *
 *	ステータス:	-1	unknown command
-*			other	command no
+*			other	command no * 2
 *
 *------------------------------------------------------------------------------
+
+COM_NO_SCALE: .equ 2
 
 get_com_no::
 		PUSH		d1-d2/a0
@@ -46,16 +48,15 @@ get_com_no::
 		add		d1,d2
 		cmp		(a0,d2.w),d0
 		bne		get_com_no_err
-		lsr		#1,d2
 		moveq		#0,d0
-		move		d2,d0
+		move		d2,d0			;COM_NO_SCALE倍のまま返す
 get_com_no_end:	POP		d1-d2/a0
 		tst.l		d0
 		rts
 
-get_com_no_0:	moveq		#0,d0
+get_com_no_0:	moveq		#0*COM_NO_SCALE,d0
 		bra		get_com_no_end
-get_com_no_1:	moveq		#1,d0
+get_com_no_1:	moveq		#1*COM_NO_SCALE,d0
 		bra		get_com_no_end
 get_com_no_err:	moveq		#-1,d0
 		bra		get_com_no_end
@@ -82,7 +83,6 @@ skip_com::
 		bsr		get_com_no
 		bmi		skip_com_err		* unknown command
 
-		add		d0,d0
 		lea		(jump_table,pc),a1
 		move		(a1,d0.w),d0
 		jsr		(a1,d0.w)		* d1.w = command code
@@ -504,14 +504,15 @@ index_table:
 		.dc	(cmd0xd000-command_table)		;$dx??
 		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.dc	(cmd0xe000-command_table)		;$ex??
-		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0		;$fx??
 
+;下の.ds 128とオーバーラップさせて省サイズ化
+;		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+;		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0		;$fx??
 
-  .ds  128
+  .ds 128
 command_table:
   OBJECT_COMMAND_LIST
-  .ds  $7f-(OBJECT_COMMAND_MAX.and.$7f)
+  .ds $7f-(OBJECT_COMMAND_MAX.and.$7f)
 
 
 *------------------------------------------------------------------------------
