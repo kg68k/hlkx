@@ -494,21 +494,21 @@ act_xdef_l1:	move.l		(a1)+,d0
 		move		xdef_list_type,d0
 		cmp.l		xdef_list_obj_list,a0
 		bne		act_xdef_b200		* not label owner
-		cmpi		#$fe,d0			* common ?
+		cmpi		#SECT_COMM,d0
 		bne		act_xdef_b101
 		move.l		xdef_list_size,d0
 		add.l		d0,(COMMON_SIZE,a4)	;add common area
 		st		xdef_list_stat
 		bra		act_xdef_l1
 
-act_xdef_b101	cmpi		#$fd,d0			* rcommon ?
+act_xdef_b101	cmpi		#SECT_RCOMM,d0
 		bne		act_xdef_b102
 		move.l		xdef_list_size,d0
 		add.l		d0,(RCOMMON_SIZE,a4)	;add rcommon area
 		st		xdef_list_stat
 		bra		act_xdef_l1
 
-act_xdef_b102	cmpi		#$fc,d0			* rlcommon ?
+act_xdef_b102	cmpi		#SECT_RLCOMM,d0
 		bne		act_xdef_l1		* not comm label
 		move.l		xdef_list_size,d0
 		add.l		d0,(RLCOMMON_SIZE,a4)	;add rlcommon area
@@ -517,7 +517,7 @@ act_xdef_b102	cmpi		#$fc,d0			* rlcommon ?
 
 
 							* not label owner
-act_xdef_b200	cmpi		#$fe,d0
+act_xdef_b200	cmpi		#SECT_COMM,d0
 		bne		act_xdef_b220		* not comm label
 		cmp.b		(1,a2),d0
 		bne		act_xdef_b210		* not comm label
@@ -531,9 +531,9 @@ act_xdef_b200	cmpi		#$fe,d0
 		bra		act_xdef_l1
 
 act_xdef_b210	move		(a2),d0
-		cmpi.b		#$fd,d0
+		cmpi.b		#SECT_RCOMM,d0
 		beq		act_xdef_b400		* not comm label (error!!)
-		cmpi.b		#$fc,d0
+		cmpi.b		#SECT_RLCOMM,d0
 		beq		act_xdef_b400		* not comm label (error!!)
 
 		tst		xdef_list_stat
@@ -542,7 +542,7 @@ act_xdef_b210	move		(a2),d0
 		sub.l		d0,(COMMON_SIZE,a4)	;delete common area
 		bra		act_xdef_b251
 
-act_xdef_b220	cmpi		#$fd,d0
+act_xdef_b220	cmpi		#SECT_RCOMM,d0
 		bne		act_xdef_b240		* not rcomm label
 		cmp.b		(1,a2),d0
 		bne		act_xdef_b230		* not rcomm label
@@ -556,9 +556,9 @@ act_xdef_b220	cmpi		#$fd,d0
 		bra		act_xdef_l1
 
 act_xdef_b230	move		(a2),d0
-		cmpi.b		#$fe,d0
+		cmpi.b		#SECT_COMM,d0
 		beq		act_xdef_b400		* not rcomm label (error!!)
-		cmpi.b		#$fc,d0
+		cmpi.b		#SECT_RLCOMM,d0
 		beq		act_xdef_b400		* not rcomm label (error!!)
 
 		tst		xdef_list_stat
@@ -567,7 +567,7 @@ act_xdef_b230	move		(a2),d0
 		sub.l		d0,(RCOMMON_SIZE,a4)	;delete rcommon area
 		bra		act_xdef_b251
 
-act_xdef_b240	cmpi		#$fd,d0
+act_xdef_b240	cmpi		#SECT_RCOMM,d0
 		bne		act_xdef_b300		* not comm, rcomm, rlcomm label
 		cmp.b		(1,a2),d0
 		bne		act_xdef_b250		* not rlcomm label
@@ -581,9 +581,9 @@ act_xdef_b240	cmpi		#$fd,d0
 		bra		act_xdef_l1
 
 act_xdef_b250	move		(a2),d0
-		cmpi.b		#$fd,d0
+		cmpi.b		#SECT_RCOMM,d0
 		beq		act_xdef_b400		* not rlcomm label (error!!)
-		cmpi.b		#$fc,d0
+		cmpi.b		#SECT_RLCOMM,d0
 		beq		act_xdef_b400		* not rlcomm label (error!!)
 
 		tst		xdef_list_stat
@@ -616,11 +616,11 @@ act_xdef_b300:
 		beq		act_xdef_l1
 @@:
 		move		(a2),d0
-		cmpi.b		#$fe,d0
+		cmpi.b		#SECT_COMM,d0
 		beq		act_xdef_b301
-		cmpi.b		#$fd,d0
+		cmpi.b		#SECT_RCOMM,d0
 		beq		act_xdef_b301
-		cmpi.b		#$fc,d0
+		cmpi.b		#SECT_RLCOMM,d0
 		beq		act_xdef_b301
 							* not comm, rcomm, rlcomm label
 							* (error!!)
@@ -722,11 +722,11 @@ regist_xdef_b20	moveq.l		#0,d0			* d0.l = 0
 		move.l		a4,(a3)+		* label_name
 		move		d0,(a3)+		* stat
 		move		d1,(a3)+		* type
-		cmpi		#$fe,d1			* comm ??
+		cmpi		#SECT_COMM,d1
 		beq		regist_xdef_b21
-		cmpi		#$fd,d1			* rcomm ??
+		cmpi		#SECT_RCOMM,d1
 		beq		regist_xdef_b21
-		cmpi		#$fc,d1			* rlcomm ??
+		cmpi		#SECT_RLCOMM,d1
 		beq		regist_xdef_b21
 		move.l		d2,(a3)+		* value
 		move.l		d0,(a3)+		* size
@@ -846,7 +846,7 @@ set_xdef_l1:	move.l		(a1)+,d0
 		move.l		xdef_list_value,d1
 		move		xdef_list_type,d0
 		addq.b		#4,d0			;$fc -> $00
-		cmpi		#$0a+4,d0
+		cmpi		#SECT_RLSTACK+4,d0
 		bhi		set_xdef_err_func
 		move.b		(@f,pc,d0.w),d0
 		jmp		(@f,pc,d0.w)

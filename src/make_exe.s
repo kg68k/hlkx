@@ -925,21 +925,21 @@ make_sym_l20	tst.l		(a3)
 
 		move		xdef_list_type,d0
 		beq		make_sym_b4		;abs
-		cmpi		#$0001,d0
+		cmpi		#SECT_TEXT,d0
 		beq		make_sym_b5		;text
-		cmpi		#$0002,d0
+		cmpi		#SECT_DATA,d0
 		beq		make_sym_b6		;data
-		cmpi		#$0003,d0
+		cmpi		#SECT_BSS,d0
 		beq		make_sym_b7		;bss
-		cmpi		#$0004,d0
+		cmpi		#SECT_STACK,d0
 		beq		make_sym_b8		;stack
-		cmpi		#$000a,d0
+		cmpi		#SECT_RLSTACK,d0
 		bls		make_sym_r		;5:rdata～$a:rlstack
-		cmpi		#$00fc,d0
+		cmpi		#SECT_RLCOMM,d0
 		beq		make_sym_b1		;rlcomm
-		cmpi		#$00fd,d0
+		cmpi		#SECT_RCOMM,d0
 		beq		make_sym_b2		;rcomm
-		cmpi		#$00fe,d0
+		cmpi		#SECT_COMM,d0
 		beq		make_sym_b3		;comm
 		bra		make_sym_err		;program error
 
@@ -1148,35 +1148,35 @@ make_scd_b21	move.b		9(a3),d0
 
 		move.l		(a3)+,d6
 		move.w		(a3)+,d0
-		cmp.w		#$0001,d0
+		cmp.w		#SECT_TEXT,d0
 		bne		make_scd_b22
 		add.l		obj_list_text_pos,d6
 		bra		make_scd_b29
 
-make_scd_b22	cmp.w		#$0002,d0
+make_scd_b22	cmp.w		#SECT_DATA,d0
 		bne		make_scd_b23
 		add.l		obj_list_data_pos,d6
 		sub.l		(workbuf+TEXT_SIZE,pc),d6
 		bra		make_scd_b29
 
-make_scd_b23	cmp.w		#$0003,d0
+make_scd_b23	cmp.w		#SECT_BSS,d0
 		bne		make_scd_b24
 		add.l		obj_list_bss_pos,d6
 		sub.l		(workbuf+OBJ_SIZE,pc),d6
 		bra		make_scd_b29
 
-make_scd_b24	cmp.w		#$0005,d0
+make_scd_b24	cmp.w		#SECT_RDATA,d0
 		bne		make_scd_b25
 		add.l		obj_list_rdata_pos,d6
 		bra		make_scd_b29
 
-make_scd_b25	cmp.w		#$0006,d0
+make_scd_b25	cmp.w		#SECT_RBSS,d0
 		bne		make_scd_b26
 		add.l		obj_list_rbss_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
 		bra		make_scd_b29
 
-make_scd_b26	cmp.w		#$0008,d0
+make_scd_b26	cmp.w		#SECT_RLDATA,d0
 		bne		make_scd_b27
 		add.l		obj_list_rldata_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
@@ -1185,7 +1185,7 @@ make_scd_b26	cmp.w		#$0008,d0
 **		sub.l		(workbuf+RSTACK_SIZE,pc),d6
 		bra		make_scd_b29
 
-make_scd_b27	cmp.w		#$0009,d0
+make_scd_b27	cmp.w		#SECT_RLBSS,d0
 		bne		make_scd_b28
 		add.l		obj_list_rlbss_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
@@ -1198,9 +1198,9 @@ make_scd_b27	cmp.w		#$0009,d0
 make_scd_b28:
 		cmpi		#$fffc,d0		;$ffff	xref
 		bcc		make_scd_b29		;$fffe	common
-		cmpi		#$00fc,d0		;$fffd	rlcommon
+		cmpi		#SECT_RLCOMM,d0		;$fffd	rlcommon
 		beq		make_scd_b29		;$fffc	rcommon
-		cmpi		#$00fd,d0		;$00fd	rlcommon
+		cmpi		#SECT_RCOMM,d0		;$00fd	rlcommon
 		bne		make_scd_err2		;$00fc	rcommon
 make_scd_b29:
 		move.l		d6,(a5)+
@@ -1312,35 +1312,35 @@ make_scd_b430						* function name etc.
 		move.l		(a3)+,d6
 		move.w		(a3)+,d0
 
-		cmp.w		#$0001,d0
+		cmp.w		#SECT_TEXT,d0
 		bne		make_scd_b431
 		add.l		obj_list_text_pos,d6
 		bra		make_scd_b439
 
-make_scd_b431	cmp.w		#$0002,d0
+make_scd_b431	cmp.w		#SECT_DATA,d0
 		bne		make_scd_b432
 		add.l		obj_list_data_pos,d6
 		sub.l		(workbuf+TEXT_SIZE,pc),d6
 		bra		make_scd_b440
 
-make_scd_b432	cmp.w		#$0003,d0
+make_scd_b432	cmp.w		#SECT_BSS,d0
 		bne		make_scd_b433
 		add.l		obj_list_bss_pos,d6
 		sub.l		(workbuf+OBJ_SIZE,pc),d6
 		bra		make_scd_b440
 
-make_scd_b433	cmp.w		#$0005,d0
+make_scd_b433	cmp.w		#SECT_RDATA,d0
 		bne		make_scd_b434
 		add.l		obj_list_rdata_pos,d6
 		bra		make_scd_b440
 
-make_scd_b434	cmp.w		#$0006,d0
+make_scd_b434	cmp.w		#SECT_RBSS,d0
 		bne		make_scd_b435
 		add.l		obj_list_rbss_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
 		bra		make_scd_b440
 
-make_scd_b435	cmp.w		#$0008,d0
+make_scd_b435	cmp.w		#SECT_RLDATA,d0
 		bne		make_scd_b436
 		add.l		obj_list_rldata_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
@@ -1349,7 +1349,7 @@ make_scd_b435	cmp.w		#$0008,d0
 **		sub.l		(workbuf+RSTACK_SIZE,pc),d6
 		bra		make_scd_b440
 
-make_scd_b436	cmp.w		#$0009,d0
+make_scd_b436	cmp.w		#SECT_RLBSS,d0
 		bne		make_scd_b437
 		add.l		obj_list_rlbss_pos,d6
 **		sub.l		(workbuf+RDATA_SIZE,pc),d6
@@ -1459,9 +1459,9 @@ make_scd_l500	move.l		(a3)+,d6
 		move.l		d6,(a5)+
 
 make_scd_b510	move		(4,a3),d6
-		cmpi		#$00fe,d6
+		cmpi		#SECT_COMM,d6
 		bhi		@f
-		cmpi		#$00fc,d6
+		cmpi		#SECT_RLCOMM,d6
 		bcc		make_scd_b520		;$00fc～$00fe
 		cmpi		#$fffe,d6
 		bhi		@f
@@ -1488,11 +1488,11 @@ make_scd_b530	bsr		search_xdef
 		move.l		xdef_list_value,d0
 
 		move.w		xdef_list_type,d6
-		cmp.b		#$fe,d6
+		cmp.b		#SECT_COMM,d6
 		beq		make_scd_b531
-		cmp.b		#$fd,d6
+		cmp.b		#SECT_RCOMM,d6
 		beq		make_scd_b532
-*		cmp.b		#$fc,d6
+*		cmp.b		#SECT_RLCOMM,d6
 *		beq		make_scd_b533
 		bra		make_scd_b533
 
@@ -1542,35 +1542,35 @@ make_scd_b540	moveq.l		#18,d6
 		bcs		make_scd_err		* program error !!
 		bra		make_scd_b70
 
-make_scd_b550	cmp.w		#$0001,d6
+make_scd_b550	cmp.w		#SECT_TEXT,d6
 		bne		make_scd_b551
 		move.l		obj_list_text_pos,d0
 		bra		make_scd_b560
 
-make_scd_b551	cmp.w		#$0002,d6
+make_scd_b551	cmp.w		#SECT_DATA,d6
 		bne		make_scd_b552
 		move.l		obj_list_data_pos,d0
 		sub.l		(workbuf+TEXT_SIZE,pc),d0
 		bra		make_scd_b560
 
-make_scd_b552	cmp.w		#$0003,d6
+make_scd_b552	cmp.w		#SECT_BSS,d6
 		bne		make_scd_b553
 		move.l		obj_list_bss_pos,d0
 		sub.l		(workbuf+OBJ_SIZE,pc),d0
 		bra		make_scd_b560
 
-make_scd_b553	cmp.w		#$0005,d6
+make_scd_b553	cmp.w		#SECT_RDATA,d6
 		bne		make_scd_b554
 		move.l		obj_list_rdata_pos,d0
 		bra		make_scd_b560
 
-make_scd_b554	cmp.w		#$0006,d6
+make_scd_b554	cmp.w		#SECT_RBSS,d6
 		bne		make_scd_b555
 		move.l		obj_list_rbss_pos,d0
 **		sub.l		(workbuf+RDATA_SIZE,pc),d0
 		bra		make_scd_b560
 
-make_scd_b555	cmp.w		#$0008,d6
+make_scd_b555	cmp.w		#SECT_RLDATA,d6
 		bne		make_scd_b556
 		move.l		obj_list_rldata_pos,d0
 **		sub.l		(workbuf+RDATA_SIZE,pc),d0
@@ -1579,7 +1579,7 @@ make_scd_b555	cmp.w		#$0008,d6
 **		sub.l		(workbuf+RSTACK_SIZE,pc),d0
 		bra		make_scd_b560
 
-make_scd_b556	cmp.w		#$0009,d6
+make_scd_b556	cmp.w		#SECT_RLBSS,d6
 		bne		make_scd_err2
 		move.l		obj_list_rlbss_pos,d0
 **		sub.l		(workbuf+RDATA_SIZE,pc),d0
@@ -2113,13 +2113,13 @@ wrt_lbl_41ff:
 							* d0.w = type
 		tst		d0			* d1.l = value
 		beq		wrt_lbl_41ff_b3		* abs
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_41ff_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_41ff_b2
 wrt_lbl_41ff_b1	bsr		adrs_word_err
 		bra		wrt_lbl_41ff_b4
-wrt_lbl_41ff_b2	cmp.w		#$0004,d5
+wrt_lbl_41ff_b2	cmp.w		#SECT_STACK,d5
 		bhi		wrt_lbl_41ff_b1
 		bsr		check_word2_val
 		bra		wrt_lbl_41ff_b4
@@ -2146,11 +2146,11 @@ wrt_lbl_46ff:
 							* d0.w = type
 		tst		d0			* d1.l = value
 		beq		wrt_lbl_46ff_b2		* abs
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_46ff_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_46ff_b1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_46ff_b2
 		store_offset2
 		bra		wrt_lbl_46ff_b2
@@ -2274,7 +2274,7 @@ wrt_lbl_4105: * SXhas
 		check_section	wrt_lbl_4105
 
 		add.l		obj_list_rdata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4105_b1
 
 		bsr		adrs_word_err
@@ -2293,7 +2293,7 @@ wrt_lbl_4106: * SXhas
 		check_section	wrt_lbl_4106
 
 		add.l		obj_list_rbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4106_b1
 
 		bsr		adrs_word_err
@@ -2312,7 +2312,7 @@ wrt_lbl_4107: * SXhas
 		check_section	wrt_lbl_4107
 
 		add.l		obj_list_rstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4107_b1
 
 		bsr		adrs_word_err
@@ -2384,7 +2384,7 @@ wrt_lbl_4605: * SXhas
 		check_section	wrt_lbl_4605
 
 		add.l		obj_list_rdata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4605_b
 		store_offset2
 wrt_lbl_4605_b:
@@ -2400,7 +2400,7 @@ wrt_lbl_4606: * SXhas
 		check_section	wrt_lbl_4606
 
 		add.l		obj_list_rbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4606_b
 		store_offset2
 wrt_lbl_4606_b:
@@ -2416,7 +2416,7 @@ wrt_lbl_4607: * SXhas
 		check_section	wrt_lbl_4607
 
 		add.l		obj_list_rstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4607_b
 		store_offset2
 wrt_lbl_4607_b
@@ -2432,7 +2432,7 @@ wrt_lbl_4608: * SXhas
 		check_section	wrt_lbl_4608
 
 		add.l		obj_list_rldata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4608_b
 		store_offset2
 wrt_lbl_4608_b:
@@ -2448,7 +2448,7 @@ wrt_lbl_4609: * SXhas
 		check_section	wrt_lbl_4609
 
 		add.l		obj_list_rlbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_4609_b
 		store_offset2
 wrt_lbl_4609_b
@@ -2464,7 +2464,7 @@ wrt_lbl_460a: * SXhas
 		check_section	wrt_lbl_460a
 
 		add.l		obj_list_rlstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_460a_b
 		store_offset2
 wrt_lbl_460a_b
@@ -2549,13 +2549,13 @@ wrt_lbl_51ff:
 		add.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_51ff_b3		* abs
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_51ff_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_51ff_b2
 wrt_lbl_51ff_b1	bsr		adrs_word_err
 		bra		wrt_lbl_51ff_b4
-wrt_lbl_51ff_b2	cmp.w		#$0004,d5
+wrt_lbl_51ff_b2	cmp.w		#SECT_STACK,d5
 		bhi		wrt_lbl_51ff_b1
 		bsr		check_word2_val
 		bra		wrt_lbl_51ff_b4
@@ -2585,11 +2585,11 @@ wrt_lbl_56ff:
 		add.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_56ff_b2		* abs
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_56ff_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_56ff_b1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_56ff_b2
 		store_offset2
 		bra		wrt_lbl_56ff_b2
@@ -2719,7 +2719,7 @@ wrt_lbl_5105: * SXhas
 		check_section	wrt_lbl_5105
 
 		add.l		obj_list_rdata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5105_b1
 
 		bsr		adrs_word_err
@@ -2739,7 +2739,7 @@ wrt_lbl_5106: * SXhas
 		check_section	wrt_lbl_5106
 
 		add.l		obj_list_rbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5106_b1
 
 		bsr		adrs_word_err
@@ -2759,7 +2759,7 @@ wrt_lbl_5107: * SXhas
 		check_section	wrt_lbl_5107
 
 		add.l		obj_list_rstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5107_b1
 
 		bsr		adrs_word_err
@@ -2836,7 +2836,7 @@ wrt_lbl_5605: * SXhas
 		check_section	wrt_lbl_5605
 
 		add.l		obj_list_rdata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5605_b
 		store_offset2
 wrt_lbl_5605_b:
@@ -2853,7 +2853,7 @@ wrt_lbl_5606: * SXhas
 		check_section	wrt_lbl_5606
 
 		add.l		obj_list_rbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5606_b
 		store_offset2
 wrt_lbl_5606_b:
@@ -2870,7 +2870,7 @@ wrt_lbl_5607: * SXhas
 		check_section	wrt_lbl_5607
 
 		add.l		obj_list_rstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5607_b
 		store_offset2
 wrt_lbl_5607_b:
@@ -2887,7 +2887,7 @@ wrt_lbl_5608: * SXhas
 		check_section	wrt_lbl_5608
 
 		add.l		obj_list_rldata_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5608_b
 		store_offset2
 wrt_lbl_5608_b:
@@ -2904,7 +2904,7 @@ wrt_lbl_5609: * SXhas
 		check_section	wrt_lbl_5609
 
 		add.l		obj_list_rlbss_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_5609_b
 		store_offset2
 wrt_lbl_5609_b:
@@ -2921,7 +2921,7 @@ wrt_lbl_560a: * SXhas
 		check_section	wrt_lbl_560a
 
 		add.l		obj_list_rlstack_pos,d1
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_lbl_560a_b
 		store_offset2
 wrt_lbl_560a_b:
@@ -2951,9 +2951,9 @@ wrt_lbl_6501:
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6501_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6501_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6501_b2
 wrt_lbl_6501_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6501_b3
@@ -2978,9 +2978,9 @@ wrt_lbl_6502:
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6502_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6502_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6502_b2
 wrt_lbl_6502_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6502_b3
@@ -3005,9 +3005,9 @@ wrt_lbl_6503:
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6503_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6503_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6503_b2
 wrt_lbl_6503_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6503_b3
@@ -3032,9 +3032,9 @@ wrt_lbl_6504:
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6504_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6504_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6504_b2
 wrt_lbl_6504_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6504_b3
@@ -3057,9 +3057,9 @@ wrt_lbl_6505:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6505_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6505_b2
 wrt_lbl_6505_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6505_b3
@@ -3082,9 +3082,9 @@ wrt_lbl_6506:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6506_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6506_b2
 wrt_lbl_6506_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6506_b3
@@ -3107,9 +3107,9 @@ wrt_lbl_6507:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6507_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6507_b2
 wrt_lbl_6507_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6507_b3
@@ -3132,9 +3132,9 @@ wrt_lbl_6508:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6508_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6508_b2
 wrt_lbl_6508_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6508_b3
@@ -3157,9 +3157,9 @@ wrt_lbl_6509:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		bhi		wrt_lbl_6509_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6509_b2
 wrt_lbl_6509_b1	bsr		adrs_word_err
 		bra		wrt_lbl_6509_b3
@@ -3182,9 +3182,9 @@ wrt_lbl_650a:
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_650a_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_650a_b2
 wrt_lbl_650a_b1	bsr		adrs_word_err
 		bra		wrt_lbl_650a_b3
@@ -3216,9 +3216,9 @@ wrt_lbl_6b01:						* v2.00
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6b01_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b01_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6b01_b2
 wrt_lbl_6b01_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b01_b3
@@ -3241,9 +3241,9 @@ wrt_lbl_6b02:						* v2.00
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6b02_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b02_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6b02_b2
 wrt_lbl_6b02_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b02_b3
@@ -3266,9 +3266,9 @@ wrt_lbl_6b03:						* v2.00
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6b03_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b03_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6b03_b2
 wrt_lbl_6b03_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b03_b3
@@ -3291,9 +3291,9 @@ wrt_lbl_6b04:						* v2.00
 		sub.l		d2,d1
 		tst.w		d0
 		beq		wrt_lbl_6b04_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b04_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_6b04_b2
 wrt_lbl_6b04_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b04_b3
@@ -3314,9 +3314,9 @@ wrt_lbl_6b05:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b05_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b05_b2
 wrt_lbl_6b05_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b05_b3
@@ -3337,9 +3337,9 @@ wrt_lbl_6b06:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b06_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b06_b2
 wrt_lbl_6b06_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b06_b3
@@ -3360,9 +3360,9 @@ wrt_lbl_6b07:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b07_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b07_b2
 wrt_lbl_6b07_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b07_b3
@@ -3383,9 +3383,9 @@ wrt_lbl_6b08:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b08_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b08_b2
 wrt_lbl_6b08_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b08_b3
@@ -3406,9 +3406,9 @@ wrt_lbl_6b09:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		bhi		wrt_lbl_6b09_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b09_b2
 wrt_lbl_6b09_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b09_b3
@@ -3429,9 +3429,9 @@ wrt_lbl_6b0a:						* v2.00
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_6b0a_b1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bhi		wrt_lbl_6b0a_b2
 wrt_lbl_6b0a_b1	bsr		adrs_byte_err
 		bra		wrt_lbl_6b0a_b3
@@ -3459,13 +3459,13 @@ psh_lbl_80ff:
 							* d1.l = value
 		tst.w		d0
 		beq		psh_lbl_80ff_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		psh_lbl_80ff_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		psh_lbl_80ff_b1
-		move.w		#2,d0
+		moveq		#2,d0
 		bra		psh_lbl_80ff_b2
-psh_lbl_80ff_b1	move.w		#1,d0
+psh_lbl_80ff_b1	moveq		#1,d0
 psh_lbl_80ff_b2	movea.l		(workbuf+CALC_STACK_PTR,pc),a3
 		cmp.l		(workbuf+CALC_STACK_TOP,pc),a3
 		beq		c_stack_over		* calc stack over flow
@@ -3650,7 +3650,7 @@ wrt_stk_9100:
 		bmi		wrt_stk_9100_b3
 		cmpi		#1,d0
 		beq		wrt_stk_9100_b1
-		cmpi		#$0004,d5
+		cmpi		#SECT_STACK,d5
 		bhi		wrt_stk_9100_b1
 		bsr		check_word2_val
 		bra		wrt_stk_9100_b3
@@ -3681,7 +3681,7 @@ wrt_stk_9600:
 		bmi		wrt_stk_9600_b2
 		cmpi		#1,d0
 		beq		wrt_stk_9600_b1
-		cmpi		#$0004,d5
+		cmpi		#SECT_STACK,d5
 		bls		wrt_stk_9600_b2
 		store_offset2
 		bra		wrt_stk_9600_b2
@@ -3709,7 +3709,7 @@ wrt_stk_9900:
 		bmi		wrt_stk_9900_b3
 		cmpi		#1,d0
 		beq		wrt_stk_9900_b1
-		cmpi		#$0004,d5
+		cmpi		#SECT_STACK,d5
 		bls		wrt_stk_9900_b2
 wrt_stk_9900_b1:bsr		adrs_word_err
 		bra		wrt_stk_9900_b3
@@ -4450,7 +4450,7 @@ divs_d0d1_b1	tst.l		d1
 divs_d0d1_b2	moveq.l		#0,d3
 		moveq.l		#0,d4
 
-		move.w		#32-1,d5		* d5.w = loop counter
+		moveq		#32-1,d5		* d5.w = loop counter
 divs_d0d1_l	asl.l		#1,d3
 		roxl.l		#1,d1
 		roxl.l		#1,d4

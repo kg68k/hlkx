@@ -51,7 +51,7 @@ calc_size_l11:
 		movea.l		d0,a2
 		move.l		link_list_obj_list,a1	* a1.l = obj_list
 
-		move.w		#1,d5			* d5.w = section no.
+		moveq		#SECT_TEXT,d5		* d5.w = section no.
 		movea.l		obj_list_obj_image,a0	* a0.l = obj_image
 		move		(a0),d0
 		beq		object_end
@@ -283,9 +283,9 @@ wrt_lbl_46fc:
 wrt_lbl_46fd:
 		addq.l		#4,a0			;command + label no.w
 
-		cmp.w		#$0005,d5		* rdata
+		cmp.w		#SECT_RDATA,d5
 		beq		wrt_lbl_560a_b
-		cmp.w		#$0008,d5		* rldata
+		cmp.w		#SECT_RLDATA,d5
 		bne		wrt_lbl_560a_be
 wrt_lbl_560a_b	addq.l		#4,d6
 wrt_lbl_560a_be	rts
@@ -297,17 +297,17 @@ wrt_lbl_56ff:
 		move.w		(a0)+,d0
 		addq.l		#4,a0
 
-		cmp.w		#$0005,d5		* rdata
+		cmp.w		#SECT_RDATA,d5
 		beq		wrt_lbl_56ff_b
-		cmp.w		#$0008,d5		* rldata
+		cmp.w		#SECT_RLDATA,d5
 		bne		wrt_lbl_56ff_be
 
 wrt_lbl_56ff_b	bsr		get_xref_label		* a3.l = xdef_list
 							* d0.w = type
 							* d1.l = value
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_56ff_be
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_56ff_be
 		addq.l		#4,d6
 wrt_lbl_56ff_be	rts
@@ -318,17 +318,17 @@ wrt_lbl_46ff:
 		addq.l		#2,a0
 		move.w		(a0)+,d0
 
-		cmp.w		#$0005,d5		* rdata
+		cmp.w		#SECT_RDATA,d5
 		beq		wrt_lbl_46ff_b
-		cmp.w		#$0008,d5		* rldata
+		cmp.w		#SECT_RLDATA,d5
 		bne		wrt_lbl_46ff_be
 
 wrt_lbl_46ff_b	bsr		get_xref_label		* a3.l = xdef_list
 							* d0.w = type
 							* d1.l = value
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		wrt_lbl_46ff_be
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		wrt_lbl_46ff_be
 		addq.l		#4,d6
 wrt_lbl_46ff_be	rts
@@ -381,13 +381,13 @@ psh_lbl_80ff:
 							* d1.l = value
 		tst.w		d0
 		beq		psh_lbl_80ff_b2
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		psh_lbl_80ff_b1
-		cmp.w		#$00fe,d0
+		cmp.w		#SECT_COMM,d0
 		beq		psh_lbl_80ff_b1
-		move.w		#2,d0
+		moveq		#2,d0
 		bra		psh_lbl_80ff_b2
-psh_lbl_80ff_b1	move.w		#1,d0
+psh_lbl_80ff_b1	moveq		#1,d0
 psh_lbl_80ff_b2	movea.l		(workbuf+CALC_STACK_PTR,pc),a3
 		cmp.l		(workbuf+CALC_STACK_TOP,pc),a3
 		beq		c_stack_over		* calc stack over flow
@@ -469,7 +469,7 @@ wrt_stk_9600:
 		move.l		(a3)+,d1		* d1.l = value
 		cmp.w		#2,d0
 		bne		wrt_stk_9600_be
-		cmp.w		#$0004,d5
+		cmp.w		#SECT_STACK,d5
 		bls		wrt_stk_9600_be
 		addq.l		#4,d6
 wrt_stk_9600_be:

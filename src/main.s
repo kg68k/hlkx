@@ -1813,7 +1813,7 @@ print_hex2::
 
 print_hex4::
 		PUSH		d1-d2/a0
-		move		#4-1,d2
+		moveq		#4-1,d2
 		swap		d0
 		bra		print_hex
 

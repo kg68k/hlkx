@@ -484,18 +484,18 @@ fprint_xdef:
 fprint_xdef_l	tst.l		(a1)+
 		beq		fprint_xdef_end
 		movea.l		(a1)+,a2
-		cmp.w		#$fc,xdeflist_type
+		cmp.w		#SECT_RLCOMM,xdeflist_type
 		beq		fprint_xdef_l
-		cmp.w		#$fd,xdeflist_type
+		cmp.w		#SECT_RCOMM,xdeflist_type
 		beq		fprint_xdef_l
-		cmp.w		#$fe,xdeflist_type
+		cmp.w		#SECT_COMM,xdeflist_type
 		beq		fprint_xdef_l
 
 		move.l		xdeflist_label_name,-(sp)
 		bsr		fprint_label
 		move.w		xdeflist_type,d0
 		move.l		xdeflist_value,d1
-		cmp.w		#$0004,d0
+		cmp.w		#SECT_STACK,d0
 		bls		fprint_xdef_b10
 		add.l		#$8000,d1
 fprint_xdef_b10	move.l		d1,-(sp)
@@ -504,7 +504,7 @@ fprint_xdef_b10	move.l		d1,-(sp)
 		addq.l		#8,sp
 
 		move		xdeflist_type,d0
-		cmpi		#$0a,d0
+		cmpi		#SECT_RLSTACK,d0
 		bls		@f
 		moveq		#0,d0			;一応...
 @@:		add		d0,d0
@@ -559,7 +559,7 @@ fprint_comm:
 fprint_comm_l	tst.l		(a1)
 		beq		fprint_comm_end
 		movea.l		(a1)+,a2
-		cmp.w		#$fe,xdeflist_type
+		cmp.w		#SECT_COMM,xdeflist_type
 		bne		fprint_comm_l
 
 		tst.w		d1
@@ -607,7 +607,7 @@ fprint_rcomm:
 fprint_rcomm_l	tst.l		(a1)
 		beq		fprint_rcomm_e
 		movea.l		(a1)+,a2
-		cmp.w		#$fd,xdeflist_type
+		cmp.w		#SECT_RCOMM,xdeflist_type
 		bne		fprint_rcomm_l
 
 		tst.w		d1
@@ -657,7 +657,7 @@ fprint_rlcomm:
 fprint_rlcomm_l	tst.l		(a1)
 		beq		fprint_rlcomm_e
 		movea.l		(a1)+,a2
-		cmp.w		#$fc,xdeflist_type
+		cmp.w		#SECT_RLCOMM,xdeflist_type
 		bne		fprint_rlcomm_l
 
 		tst.w		d1
@@ -798,7 +798,7 @@ fprint_label:
 
 		movea.l		arg1,a0			* a0.l = mes
 		lea		work,a1			* a1.l = work
-		move.w		#24+1,d0
+		moveq		#24+1,d0
 fprint_label_l1	subq.w		#1,d0
 		move.b		(a0)+,(a1)+
 		bne		fprint_label_l1
