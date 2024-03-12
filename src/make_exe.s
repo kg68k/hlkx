@@ -4285,24 +4285,22 @@ cal_stk_a01d_be:
 *
 *------------------------------------------------------------------------------
 
-def_lbl_b0ff:
-def_lbl_b2fc: * SXhas
-def_lbl_b2fd: * SXhas
-def_lbl_b2fe:
-def_lbl_b2ff:
-def_lbl_b200:
-def_lbl_b201:
-def_lbl_b202:
-def_lbl_b203:
-def_lbl_b204:
-def_lbl_b205: * SXhas
-def_lbl_b206: * SXhas
-def_lbl_b207: * SXhas
-def_lbl_b208: * SXhas
-def_lbl_b209: * SXhas
-def_lbl_b20a: * SXhas
-		bra		bra_skip_com
-*		rts
+def_lbl_b0ff: .reg skip_com
+def_lbl_b2fc: .reg skip_com
+def_lbl_b2fd: .reg skip_com
+def_lbl_b2fe: .reg skip_com
+def_lbl_b2ff: .reg skip_com
+def_lbl_b200: .reg skip_com
+def_lbl_b201: .reg skip_com
+def_lbl_b202: .reg skip_com
+def_lbl_b203: .reg skip_com
+def_lbl_b204: .reg skip_com
+def_lbl_b205: .reg skip_com
+def_lbl_b206: .reg skip_com
+def_lbl_b207: .reg skip_com
+def_lbl_b208: .reg skip_com
+def_lbl_b209: .reg skip_com
+def_lbl_b20a: .reg skip_com
 
 *------------------------------------------------------------------------------
 *
@@ -4312,20 +4310,18 @@ def_lbl_b20a: * SXhas
 *
 *------------------------------------------------------------------------------
 
-obj_head_c001:
-obj_head_c002:
-obj_head_c003:
-obj_head_c004:
-obj_head_c005: * SXhas
-obj_head_c006: * SXhas
-obj_head_c007: * SXhas
-obj_head_c008: * SXhas
-obj_head_c009: * SXhas
-obj_head_c00a: * SXhas
-obj_head_c00c:
-obj_head_c00d:
-		bra		bra_skip_com
-*		rts
+obj_head_c001: .reg skip_com
+obj_head_c002: .reg skip_com
+obj_head_c003: .reg skip_com
+obj_head_c004: .reg skip_com
+obj_head_c005: .reg skip_com
+obj_head_c006: .reg skip_com
+obj_head_c007: .reg skip_com
+obj_head_c008: .reg skip_com
+obj_head_c009: .reg skip_com
+obj_head_c00a: .reg skip_com
+obj_head_c00c: .reg skip_com
+obj_head_c00d: .reg skip_com
 
 *------------------------------------------------------------------------------
 *
@@ -4341,13 +4337,11 @@ obj_head_c00d:
 *
 *------------------------------------------------------------------------------
 
-obj_name:
-req_obj:
-do_ctor_e00c:
-do_dtor_e00d:
-bra_skip_com:
-		bra		skip_com
-*		rts
+obj_name: .reg skip_com
+req_obj_e001: .reg skip_com
+do_ctor_e00c: .reg skip_com
+do_dtor_e00d: .reg skip_com
+bra_skip_com: .reg skip_com
 
 
 *------------------------------------------------------------------------------

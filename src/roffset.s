@@ -255,13 +255,13 @@ wrt_lbl_5607:
 wrt_lbl_5608:
 wrt_lbl_5609:
 wrt_lbl_560a:
-		addq.l		#2,a0
+		addq.l		#2,a0			;command + adr.l + num.l
 
 wrt_lbl_52fc:
 wrt_lbl_52fd:
 wrt_lbl_56fc:
 wrt_lbl_56fd:
-		addq.l		#2,a0
+		addq.l		#2,a0			;command + label no.w + num.l
 
 wrt_lbl_4205:
 wrt_lbl_4206:
@@ -275,13 +275,13 @@ wrt_lbl_4607:
 wrt_lbl_4608:
 wrt_lbl_4609:
 wrt_lbl_460a:
-		addq.l		#2,a0
+		addq.l		#2,a0			;command + adr.l
 
 wrt_lbl_42fc:
 wrt_lbl_42fd:
 wrt_lbl_46fc:
 wrt_lbl_46fd:
-		addq.l		#4,a0
+		addq.l		#4,a0			;command + label no.w
 
 		cmp.w		#$0005,d5		* rdata
 		beq		wrt_lbl_560a_b
@@ -707,7 +707,7 @@ obj_head_c00d: .reg skip_com
 obj_name: .reg skip_com
 
 set_exec_adr: .reg skip_com
-req_obj: .reg skip_com
+req_obj_e001: .reg skip_com
 do_ctor_e00c: .reg skip_com
 do_dtor_e00d: .reg skip_com
 

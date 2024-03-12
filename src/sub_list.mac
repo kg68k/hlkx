@@ -362,7 +362,7 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
 
   index_label cmd0xe000,0
     sub_list $e000,set_exec_adr
-    sub_list $e001,req_obj
+    sub_list $e001,req_obj_e001
     sub_list $0000,error  ;$e002
     sub_list $0000,error  ;$e003
     sub_list $0000,error  ;$e004

@@ -411,9 +411,7 @@ obj_name:
 *		rts
 
 
-req_obj:
-		bra		skip_string
-*		rts
+req_obj_e001: .reg skip_string
 
 *------------------------------------------------------------------------------
 *
