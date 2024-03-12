@@ -62,20 +62,14 @@ $(HLK_X): $(OBJS)
 
 #
 
-.s.o:
+%.o: %.s hlk.mac
 	$(AS) $(ASFLAGS) $<
 
-main.o:		hlk.mac string.mac
-getarg.o:	hlk.mac
-analize.o:	hlk.mac
-display.o:	hlk.mac
-label.o:	hlk.mac
-object.o:	hlk.mac
-file.o:		hlk.mac string.mac
-roffset.o:	hlk.mac
-string.o:	hlk.mac
-make_exe.o:	hlk.mac
-make_map.o:	hlk.mac
+main.o: string.mac
+file.o: string.mac
+analyze.o: sub_list.mac
+make_exe.o: sub_list.mac
+roffset.o: sub_list.mac
 
 #
 

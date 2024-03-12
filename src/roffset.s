@@ -4,6 +4,7 @@
 * Include File -------------------------------- *
 
 		.include	hlk.mac
+		.include	sub_list.mac
 
 
 * Global Symbol ------------------------------- *
@@ -16,9 +17,6 @@
 		.xref	c_stack_under
 
 		.xref	unknown_cmd
-
-calc_size_err:	.reg	unknown_cmd
-skip:		.reg	skip_com
 
 
 * Text Section -------------------------------- *
@@ -56,11 +54,11 @@ calc_size_l11:
 		move.w		#1,d5			* d5.w = section no.
 		movea.l		obj_list_obj_image,a0	* a0.l = obj_image
 		move		(a0),d0
-		beq		calc_size_b10
+		beq		object_end
 calc_size_l12:
 		move		d0,d1
 		bsr		get_com_no
-		bmi		calc_size_err		* unknown command
+		bmi		unknown_cmd
 
 		add		d0,d0
 		lea		(jump_table,pc),a3
@@ -68,7 +66,7 @@ calc_size_l12:
 		jsr		(a3,d0.w)		* d1.w = command code
 		move		(a0),d0
 		bne		calc_size_l12
-calc_size_b10:
+object_end:
 		lea		link_list_next,a2	* a2.l = next
 		move.l		(a2),d0
 		bne		calc_size_l11
@@ -79,6 +77,9 @@ calc_size_b20:
 		pop		d1-d6/a0-a3
 		unlk		a6
 		rts
+
+define_const: .reg skip_com
+define_space: .reg skip_com
 
 *------------------------------------------------------------------------------
 
@@ -93,13 +94,153 @@ chg_sect_2008:
 chg_sect_2009:
 chg_sect_200a:
 		tst.l		2(a0)
-		bne		calc_size_err		* Undefined command
+		bne		unknown_cmd
 		addq.l		#6,a0
 
 		and.l		#$ff,d1
 		move.l		d1,d5
 
 		rts
+
+*------------------------------------------------------------------------------
+
+wrt_lbl_40fc: .reg skip_com
+wrt_lbl_40fd: .reg skip_com
+wrt_lbl_40fe: .reg skip_com
+wrt_lbl_40ff: .reg skip_com
+wrt_lbl_4000: .reg skip_com
+wrt_lbl_4001: .reg skip_com
+wrt_lbl_4002: .reg skip_com
+wrt_lbl_4003: .reg skip_com
+wrt_lbl_4004: .reg skip_com
+wrt_lbl_4005: .reg skip_com
+wrt_lbl_4006: .reg skip_com
+wrt_lbl_4007: .reg skip_com
+wrt_lbl_4008: .reg skip_com
+wrt_lbl_4009: .reg skip_com
+wrt_lbl_400a: .reg skip_com
+
+wrt_lbl_41fc: .reg skip_com
+wrt_lbl_41fd: .reg skip_com
+wrt_lbl_41fe: .reg skip_com
+wrt_lbl_41ff: .reg skip_com
+wrt_lbl_4100: .reg skip_com
+wrt_lbl_4101: .reg skip_com
+wrt_lbl_4102: .reg skip_com
+wrt_lbl_4103: .reg skip_com
+wrt_lbl_4104: .reg skip_com
+wrt_lbl_4105: .reg skip_com
+wrt_lbl_4106: .reg skip_com
+wrt_lbl_4107: .reg skip_com
+wrt_lbl_4108: .reg skip_com
+wrt_lbl_4109: .reg skip_com
+wrt_lbl_410a: .reg skip_com
+
+wrt_lbl_42fe: .reg skip_com
+wrt_lbl_4200: .reg skip_com
+wrt_lbl_4201: .reg skip_com
+wrt_lbl_4202: .reg skip_com
+wrt_lbl_4203: .reg skip_com
+wrt_lbl_4204: .reg skip_com
+
+wrt_lbl_43fc: .reg skip_com
+wrt_lbl_43fd: .reg skip_com
+wrt_lbl_43fe: .reg skip_com
+wrt_lbl_43ff: .reg skip_com
+wrt_lbl_4300: .reg skip_com
+wrt_lbl_4301: .reg skip_com
+wrt_lbl_4302: .reg skip_com
+wrt_lbl_4303: .reg skip_com
+wrt_lbl_4304: .reg skip_com
+wrt_lbl_4305: .reg skip_com
+wrt_lbl_4306: .reg skip_com
+wrt_lbl_4307: .reg skip_com
+wrt_lbl_4308: .reg skip_com
+wrt_lbl_4309: .reg skip_com
+wrt_lbl_430a: .reg skip_com
+
+wrt_lbl_45fe: .reg skip_com
+wrt_lbl_45ff: .reg skip_com
+
+wrt_lbl_46fe: .reg skip_com
+wrt_lbl_4600: .reg skip_com
+wrt_lbl_4601: .reg skip_com
+wrt_lbl_4602: .reg skip_com
+wrt_lbl_4603: .reg skip_com
+wrt_lbl_4604: .reg skip_com
+
+wrt_lbl_47fe: .reg skip_com
+wrt_lbl_47ff: .reg skip_com
+wrt_ctor_4c01: .reg skip_com
+wrt_dtor_4d01: .reg skip_com
+
+wrt_lbl_50fc: .reg skip_com
+wrt_lbl_50fd: .reg skip_com
+wrt_lbl_50fe: .reg skip_com
+wrt_lbl_50ff: .reg skip_com
+wrt_lbl_5000: .reg skip_com
+wrt_lbl_5001: .reg skip_com
+wrt_lbl_5002: .reg skip_com
+wrt_lbl_5003: .reg skip_com
+wrt_lbl_5004: .reg skip_com
+wrt_lbl_5005: .reg skip_com
+wrt_lbl_5006: .reg skip_com
+wrt_lbl_5007: .reg skip_com
+wrt_lbl_5008: .reg skip_com
+wrt_lbl_5009: .reg skip_com
+wrt_lbl_500a: .reg skip_com
+
+wrt_lbl_51fc: .reg skip_com
+wrt_lbl_51fd: .reg skip_com
+wrt_lbl_51fe: .reg skip_com
+wrt_lbl_51ff: .reg skip_com
+wrt_lbl_5100: .reg skip_com
+wrt_lbl_5101: .reg skip_com
+wrt_lbl_5102: .reg skip_com
+wrt_lbl_5103: .reg skip_com
+wrt_lbl_5104: .reg skip_com
+wrt_lbl_5105: .reg skip_com
+wrt_lbl_5106: .reg skip_com
+wrt_lbl_5107: .reg skip_com
+wrt_lbl_5108: .reg skip_com
+wrt_lbl_5109: .reg skip_com
+wrt_lbl_510a: .reg skip_com
+
+wrt_lbl_52fe: .reg skip_com
+wrt_lbl_5200: .reg skip_com
+wrt_lbl_5201: .reg skip_com
+wrt_lbl_5202: .reg skip_com
+wrt_lbl_5203: .reg skip_com
+wrt_lbl_5204: .reg skip_com
+
+wrt_lbl_53fc: .reg skip_com
+wrt_lbl_53fd: .reg skip_com
+wrt_lbl_53fe: .reg skip_com
+wrt_lbl_53ff: .reg skip_com
+wrt_lbl_5300: .reg skip_com
+wrt_lbl_5301: .reg skip_com
+wrt_lbl_5302: .reg skip_com
+wrt_lbl_5303: .reg skip_com
+wrt_lbl_5304: .reg skip_com
+wrt_lbl_5305: .reg skip_com
+wrt_lbl_5306: .reg skip_com
+wrt_lbl_5307: .reg skip_com
+wrt_lbl_5308: .reg skip_com
+wrt_lbl_5309: .reg skip_com
+wrt_lbl_530a: .reg skip_com
+
+wrt_lbl_55fe: .reg skip_com
+wrt_lbl_55ff: .reg skip_com
+
+wrt_lbl_56fe: .reg skip_com
+wrt_lbl_5600: .reg skip_com
+wrt_lbl_5601: .reg skip_com
+wrt_lbl_5602: .reg skip_com
+wrt_lbl_5603: .reg skip_com
+wrt_lbl_5604: .reg skip_com
+
+wrt_lbl_57fe: .reg skip_com
+wrt_lbl_57ff: .reg skip_com
 
 *------------------------------------------------------------------------------
 
@@ -193,6 +334,42 @@ wrt_lbl_46ff_b	bsr		get_xref_label		* a3.l = xdef_list
 		addq.l		#4,d6
 wrt_lbl_46ff_be	rts
 
+*------------------------------------------------------------------------------
+
+wrt_lbl_6501: .reg skip_com
+wrt_lbl_6502: .reg skip_com
+wrt_lbl_6503: .reg skip_com
+wrt_lbl_6504: .reg skip_com
+wrt_lbl_6505: .reg skip_com
+wrt_lbl_6506: .reg skip_com
+wrt_lbl_6507: .reg skip_com
+wrt_lbl_6508: .reg skip_com
+wrt_lbl_6509: .reg skip_com
+wrt_lbl_650a: .reg skip_com
+
+wrt_lbl_6901: .reg skip_com
+wrt_lbl_6902: .reg skip_com
+wrt_lbl_6903: .reg skip_com
+wrt_lbl_6904: .reg skip_com
+wrt_lbl_6905: .reg skip_com
+wrt_lbl_6906: .reg skip_com
+wrt_lbl_6907: .reg skip_com
+wrt_lbl_6908: .reg skip_com
+wrt_lbl_6909: .reg skip_com
+wrt_lbl_690a: .reg skip_com
+
+wrt_lbl_6b01: .reg skip_com
+wrt_lbl_6b02: .reg skip_com
+wrt_lbl_6b03: .reg skip_com
+wrt_lbl_6b04: .reg skip_com
+wrt_lbl_6b05: .reg skip_com
+wrt_lbl_6b06: .reg skip_com
+wrt_lbl_6b07: .reg skip_com
+wrt_lbl_6b08: .reg skip_com
+wrt_lbl_6b09: .reg skip_com
+wrt_lbl_6b0a: .reg skip_com
+
+*------------------------------------------------------------------------------
 
 psh_lbl_80fc:
 psh_lbl_80fd:
@@ -497,353 +674,49 @@ cal_stk_a010_be	move.l		d1,-(a3)
 
 *------------------------------------------------------------------------------
 
-sub_list:	.macro	call_adr
-		.dc	call_adr-jump_table
-		.endm
+def_lbl_b0ff: .reg skip_com
 
-jump_table:	sub_list	calc_size_b10		* $00
+def_lbl_b2fc: .reg skip_com
+def_lbl_b2fd: .reg skip_com
+def_lbl_b2fe: .reg skip_com
+def_lbl_b2ff: .reg skip_com
+def_lbl_b200: .reg skip_com
+def_lbl_b201: .reg skip_com
+def_lbl_b202: .reg skip_com
+def_lbl_b203: .reg skip_com
+def_lbl_b204: .reg skip_com
+def_lbl_b205: .reg skip_com
+def_lbl_b206: .reg skip_com
+def_lbl_b207: .reg skip_com
+def_lbl_b208: .reg skip_com
+def_lbl_b209: .reg skip_com
+def_lbl_b20a: .reg skip_com
 
-		sub_list	skip			* $10
+obj_head_c001: .reg skip_com
+obj_head_c002: .reg skip_com
+obj_head_c003: .reg skip_com
+obj_head_c004: .reg skip_com
+obj_head_c005: .reg skip_com
+obj_head_c006: .reg skip_com
+obj_head_c007: .reg skip_com
+obj_head_c008: .reg skip_com
+obj_head_c009: .reg skip_com
+obj_head_c00a: .reg skip_com
+obj_head_c00c: .reg skip_com
+obj_head_c00d: .reg skip_com
 
-		sub_list	chg_sect_2001		* $2001
-		sub_list	chg_sect_2002		* $2002
-		sub_list	chg_sect_2003		* $2003
-		sub_list	chg_sect_2004		* $2004
-		sub_list	chg_sect_2005		* $2005		SXhas
-		sub_list	chg_sect_2006		* $2006		SXhas
-		sub_list	chg_sect_2007		* $2007		SXhas
-		sub_list	chg_sect_2008		* $2008		SXhas
-		sub_list	chg_sect_2009		* $2009		SXhas
-		sub_list	chg_sect_200a		* $200a		SXhas
+obj_name: .reg skip_com
 
-		sub_list	skip			* $30
+set_exec_adr: .reg skip_com
+req_obj: .reg skip_com
+do_ctor_e00c: .reg skip_com
+do_dtor_e00d: .reg skip_com
 
-		sub_list	skip			* $40fc		SXhas
-		sub_list	skip			* $40fd		SXhas
-		sub_list	skip			* $40fe
-		sub_list	skip			* $40ff
-		sub_list	skip			* $4000
-		sub_list	skip			* $4001
-		sub_list	skip			* $4002
-		sub_list	skip			* $4003
-		sub_list	skip			* $4004
-		sub_list	skip			* $4005		SXhas
-		sub_list	skip			* $4006		SXhas
-		sub_list	skip			* $4007		SXhas
-		sub_list	skip			* $4008		SXhas
-		sub_list	skip			* $4009		SXhas
-		sub_list	skip			* $400a		SXhas
+*------------------------------------------------------------------------------
 
-		sub_list	skip			* $41fc		SXhas
-		sub_list	skip			* $41fd		SXhas
-		sub_list	skip			* $41fe
-		sub_list	skip			* $41ff
-		sub_list	skip			* $4100
-		sub_list	skip			* $4101
-		sub_list	skip			* $4102
-		sub_list	skip			* $4103
-		sub_list	skip			* $4104
-		sub_list	skip			* $4105		SXhas
-		sub_list	skip			* $4106		SXhas
-		sub_list	skip			* $4107		SXhas
-		sub_list	skip			* $4108		SXhas
-		sub_list	skip			* $4109		SXhas
-		sub_list	skip			* $410a		SXhas
+jump_table:
+  OBJECT_COMMAND_LIST jump_table,unknown_cmd
 
-		sub_list	wrt_lbl_42fc		* $42fc		SXhas
-		sub_list	wrt_lbl_42fd		* $42fd		SXhas
-		sub_list	skip			* $42fe
-		sub_list	wrt_lbl_42ff		* $42ff
-		sub_list	skip			* $4200
-		sub_list	skip			* $4201
-		sub_list	skip			* $4202
-		sub_list	skip			* $4203
-		sub_list	skip			* $4204
-		sub_list	wrt_lbl_4205		* $4205		SXhas
-		sub_list	wrt_lbl_4206		* $4206		SXhas
-		sub_list	wrt_lbl_4207		* $4207		SXhas
-		sub_list	wrt_lbl_4208		* $4208		SXhas
-		sub_list	wrt_lbl_4209		* $4209		SXhas
-		sub_list	wrt_lbl_420a		* $420a		SXhas
-
-		sub_list	skip			* $43fc		SXhas
-		sub_list	skip			* $43fd		SXhas
-		sub_list	skip			* $43fe
-		sub_list	skip			* $43ff
-		sub_list	skip			* $4300
-		sub_list	skip			* $4301
-		sub_list	skip			* $4302
-		sub_list	skip			* $4303
-		sub_list	skip			* $4304
-		sub_list	skip			* $4305		SXhas
-		sub_list	skip			* $4306		SXhas
-		sub_list	skip			* $4307		SXhas
-		sub_list	skip			* $4308		SXhas
-		sub_list	skip			* $4309		SXhas
-		sub_list	skip			* $430a		SXhas
-
-		sub_list	skip			* $45fe		v2.00
-		sub_list	skip			* $45ff
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-
-		sub_list	wrt_lbl_46fc		* $46fc		SXhas
-		sub_list	wrt_lbl_46fd		* $46fd		SXhas
-		sub_list	skip			* $46fe
-		sub_list	wrt_lbl_46ff		* $46ff
-		sub_list	skip			* $4600
-		sub_list	skip			* $4601
-		sub_list	skip			* $4602
-		sub_list	skip			* $4603
-		sub_list	skip			* $4604
-		sub_list	wrt_lbl_4605		* $4605		SXhas
-		sub_list	wrt_lbl_4606		* $4606		SXhas
-		sub_list	wrt_lbl_4607		* $4607		SXhas
-		sub_list	wrt_lbl_4608		* $4608		SXhas
-		sub_list	wrt_lbl_4609		* $4609		SXhas
-		sub_list	wrt_lbl_460a		* $460a		SXhas
-
-		sub_list	skip			* $47fe		v2.00
-		sub_list	skip			* $47ff
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-
-		sub_list	skip			+ $4c01 .ctor adr.l
-		sub_list	skip			+ $4d01 .dtor adr.l
-
-		sub_list	skip			* $50fc		SXhas
-		sub_list	skip			* $50fd		SXhas
-		sub_list	skip			* $50fe
-		sub_list	skip			* $50ff
-		sub_list	skip			* $5000
-		sub_list	skip			* $5001
-		sub_list	skip			* $5002
-		sub_list	skip			* $5003
-		sub_list	skip			* $5004
-		sub_list	skip			* $5005		SXhas
-		sub_list	skip			* $5006		SXhas
-		sub_list	skip			* $5007		SXhas
-		sub_list	skip			* $5008		SXhas
-		sub_list	skip			* $5009		SXhas
-		sub_list	skip			* $500a		SXhas
-
-		sub_list	skip			* $51fc		SXhas
-		sub_list	skip			* $51fd		SXhas
-		sub_list	skip			* $51fe		v2.00 ??
-		sub_list	skip			* $51ff
-		sub_list	skip			* $5100
-		sub_list	skip			* $5101
-		sub_list	skip			* $5102
-		sub_list	skip			* $5103
-		sub_list	skip			* $5104
-		sub_list	skip			* $5105		SXhas
-		sub_list	skip			* $5106		SXhas
-		sub_list	skip			* $5107		SXhas
-		sub_list	skip			* $5108		SXhas
-		sub_list	skip			* $5109		SXhas
-		sub_list	skip			* $510a		SXhas
-
-		sub_list	wrt_lbl_52fc		* $52fc		SXhas
-		sub_list	wrt_lbl_52fd		* $52fd		SXhas
-		sub_list	skip			* $52fe		v2.00 ??
-		sub_list	wrt_lbl_52ff		* $52ff
-		sub_list	skip			* $5200
-		sub_list	skip			* $5201
-		sub_list	skip			* $5202
-		sub_list	skip			* $5203
-		sub_list	skip			* $5204
-		sub_list	wrt_lbl_5205		* $5205		SXhas
-		sub_list	wrt_lbl_5206		* $5206		SXhas
-		sub_list	wrt_lbl_5207		* $5207		SXhas
-		sub_list	wrt_lbl_5208		* $5208		SXhas
-		sub_list	wrt_lbl_5209		* $5209		SXhas
-		sub_list	wrt_lbl_520a		* $520a		SXhas
-
-		sub_list	skip			* $53fc		SXhas
-		sub_list	skip			* $53fd		SXhas
-		sub_list	skip			* $53fe		v2.00 ??
-		sub_list	skip			* $53ff
-		sub_list	skip			* $5300
-		sub_list	skip			* $5301
-		sub_list	skip			* $5302
-		sub_list	skip			* $5303
-		sub_list	skip			* $5304
-		sub_list	skip			* $5305		SXhas
-		sub_list	skip			* $5306		SXhas
-		sub_list	skip			* $5307		SXhas
-		sub_list	skip			* $5308		SXhas
-		sub_list	skip			* $5309		SXhas
-		sub_list	skip			* $530a		SXhas
-
-		sub_list	skip			* $55fe		v2.00 ??
-		sub_list	skip			* $55ff		v2.00
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-
-		sub_list	wrt_lbl_56fc		* $56fc		SXhas
-		sub_list	wrt_lbl_56fd		* $56fd		SXhas
-		sub_list	skip			* $56fe		v2.00 ??
-		sub_list	wrt_lbl_56ff		* $56ff
-		sub_list	skip			* $5600
-		sub_list	skip			* $5601
-		sub_list	skip			* $5602
-		sub_list	skip			* $5603
-		sub_list	skip			* $5604
-		sub_list	wrt_lbl_5605		* $5605		SXhas
-		sub_list	wrt_lbl_5606		* $5606		SXhas
-		sub_list	wrt_lbl_5607		* $5607		SXhas
-		sub_list	wrt_lbl_5608		* $5608		SXhas
-		sub_list	wrt_lbl_5609		* $5609		SXhas
-		sub_list	wrt_lbl_560a		* $560a		SXhas
-
-		sub_list	skip			* $57fe		v2.00 ??
-		sub_list	skip			* $57ff		v2.00
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-
-		sub_list	skip			* $6501
-		sub_list	skip			* $6502
-		sub_list	skip			* $6503
-		sub_list	skip			* $6504
-		sub_list	skip			* $6505		SXhas
-		sub_list	skip			* $6506		SXhas
-		sub_list	skip			* $6507		SXhas
-		sub_list	skip			* $6508		SXhas
-		sub_list	skip			* $6509		SXhas
-		sub_list	skip			* $650a		SXhas
-
-		sub_list	skip			* $6901		v2.00
-		sub_list	skip			* $6902		v2.00
-		sub_list	skip			* $6903		v2.00
-		sub_list	skip			* $6904		v2.00
-		sub_list	skip			* $6905		SXhas
-		sub_list	skip			* $6906		SXhas
-		sub_list	skip			* $6907		SXhas
-		sub_list	skip			* $6908		SXhas
-		sub_list	skip			* $6909		SXhas
-		sub_list	skip			* $690a		SXhas
-
-		sub_list	skip			* $6b01		v2.00
-		sub_list	skip			* $6b02		v2.00
-		sub_list	skip			* $6b03		v2.00
-		sub_list	skip			* $6b04		v2.00
-		sub_list	skip			* $6b05		SXhas
-		sub_list	skip			* $6b06		SXhas
-		sub_list	skip			* $6b07		SXhas
-		sub_list	skip			* $6b08		SXhas
-		sub_list	skip			* $6b09		SXhas
-		sub_list	skip			* $6b0a		SXhas
-
-		sub_list	psh_lbl_80fc		* $80fc		SXhas
-		sub_list	psh_lbl_80fd		* $80fd		SXhas
-		sub_list	psh_lbl_80fe		* $80fe		v2.00 ??
-		sub_list	psh_lbl_80ff		* $80ff
-		sub_list	psh_lbl_8000		* $8000
-		sub_list	psh_lbl_8001		* $8001
-		sub_list	psh_lbl_8002		* $8002
-		sub_list	psh_lbl_8003		* $8003
-		sub_list	psh_lbl_8004		* $8004
-		sub_list	psh_lbl_8005		* $8005		SXhas
-		sub_list	psh_lbl_8006		* $8006		SXhas
-		sub_list	psh_lbl_8007		* $8007		SXhas
-		sub_list	psh_lbl_8008		* $8008		SXhas
-		sub_list	psh_lbl_8009		* $8009		SXhas
-		sub_list	psh_lbl_800a		* $800a		SXhas
-
-		sub_list	wrt_stk_9000		* $9000
-		sub_list	wrt_stk_9100		* $9100
-		sub_list	wrt_stk_9200		* $9200
-		sub_list	wrt_stk_9300		* $9300
-		sub_list	wrt_stk_9600		* $9600
-		sub_list	wrt_stk_9900		* $9900
-
-		sub_list	cal_stk_a001		* $a001
-		sub_list	cal_stk_a002		* $a002
-		sub_list	cal_stk_a003		* $a003
-		sub_list	cal_stk_a004		* $a004
-		sub_list	cal_stk_a005		* $a005
-		sub_list	cal_stk_a006		* $a006
-		sub_list	cal_stk_a007		* $a007
-		sub_list	calc_size_err
-		sub_list	cal_stk_a009		* $a009
-		sub_list	cal_stk_a00a		* $a00a
-		sub_list	cal_stk_a00b		* $a00b
-		sub_list	cal_stk_a00c		* $a00c
-		sub_list	cal_stk_a00d		* $a00d
-		sub_list	cal_stk_a00e		* $a00e
-		sub_list	cal_stk_a00f		* $a00f
-		sub_list	cal_stk_a010		* $a010
-		sub_list	cal_stk_a011		* $a011
-		sub_list	cal_stk_a012		* $a012
-		sub_list	cal_stk_a013		* $a013
-		sub_list	cal_stk_a014		* $a014
-		sub_list	cal_stk_a015		* $a015
-		sub_list	cal_stk_a016		* $a016
-		sub_list	cal_stk_a017		* $a017
-		sub_list	cal_stk_a018		* $a018
-		sub_list	cal_stk_a019		* $a019
-		sub_list	cal_stk_a01a		* $a01a
-		sub_list	cal_stk_a01b		* $a01b
-		sub_list	cal_stk_a01c		* $a01c
-		sub_list	cal_stk_a01d		* $a01d
-		sub_list	calc_size_err
-		sub_list	calc_size_err
-
-		sub_list	skip			* $b0ff
-
-		sub_list	skip			* $b2fc		SXhas
-		sub_list	skip			* $b2fd		SXhas
-		sub_list	skip			* $b2fe
-		sub_list	skip			* $b2ff
-		sub_list	skip			* $b200
-		sub_list	skip			* $b201
-		sub_list	skip			* $b202
-		sub_list	skip			* $b203
-		sub_list	skip			* $b204
-		sub_list	skip			* $b205		SXhas
-		sub_list	skip			* $b206		SXhas
-		sub_list	skip			* $b207		SXhas
-		sub_list	skip			* $b208		SXhas
-		sub_list	skip			* $b209		SXhas
-		sub_list	skip			* $b20a		SXhas
-
-		sub_list	skip			* $c001
-		sub_list	skip			* $c002
-		sub_list	skip			* $c003
-		sub_list	skip			* $c004
-		sub_list	skip			* $c005		SXhas
-		sub_list	skip			* $c006		SXhas
-		sub_list	skip			* $c007		SXhas
-		sub_list	skip			* $c008		SXhas
-		sub_list	skip			* $c009		SXhas
-		sub_list	skip			* $c00a		SXhas
-
-		sub_list	calc_size_err		+
-		sub_list	skip			+ $c00c size.l 'ctor',0
-		sub_list	skip			+ $c00d size.l 'dtor',0
-
-		sub_list	skip			* $d000
-
-		sub_list	skip			* $e000
-		sub_list	skip			* $e001
-
-	.rept	$e00c-($e001+1)
-		sub_list	calc_size_err		+
-	.endm
-		sub_list	skip			+ $e00c .doctor
-		sub_list	skip			+ $e00d .dodtor
 
 		.end
 

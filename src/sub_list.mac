@@ -1,0 +1,403 @@
+
+OBJECT_COMMAND_LIST: .macro jump_table,error
+  .sizem _,cnt
+  .if cnt==0  ;コマンド番号テーブルを出力する
+    sub_list: .macro comno,call_adr
+      .dc comno
+    .endm
+    index_label: .macro label,offset,0
+      label: .equ $-offset*2
+    .endm
+  .else  ;コマンド番号ごとのジャンプテーブルを出力する
+    sub_list: .macro comno,call_adr
+      .dc call_adr-jump_table
+    .endm
+    index_label: .macro label,offset,0
+    .endm
+  .endif
+
+    sub_list $0000,object_end
+    sub_list $0000,define_const  ;$10xxは特別扱い
+
+  index_label cmd0x2000,1
+    sub_list $2001,chg_sect_2001
+    sub_list $2002,chg_sect_2002
+    sub_list $2003,chg_sect_2003
+    sub_list $2004,chg_sect_2004
+    sub_list $2005,chg_sect_2005  ;SXhas
+    sub_list $2006,chg_sect_2006  ;SXhas
+    sub_list $2007,chg_sect_2007  ;SXhas
+    sub_list $2008,chg_sect_2008  ;SXhas
+    sub_list $2009,chg_sect_2009  ;SXhas
+    sub_list $200a,chg_sect_200a  ;SXhas
+
+  index_label cmd0x3000,0
+    sub_list $3000,define_space
+
+    sub_list $40fc,wrt_lbl_40fc  ;SXhas
+    sub_list $40fd,wrt_lbl_40fd  ;SXhas
+    sub_list $40fe,wrt_lbl_40fe
+    sub_list $40ff,wrt_lbl_40ff
+  index_label cmd0x4000,0
+    sub_list $4000,wrt_lbl_4000
+    sub_list $4001,wrt_lbl_4001
+    sub_list $4002,wrt_lbl_4002
+    sub_list $4003,wrt_lbl_4003
+    sub_list $4004,wrt_lbl_4004
+    sub_list $4005,wrt_lbl_4005  ;SXhas
+    sub_list $4006,wrt_lbl_4006  ;SXhas
+    sub_list $4007,wrt_lbl_4007  ;SXhas
+    sub_list $4008,wrt_lbl_4008  ;SXhas
+    sub_list $4009,wrt_lbl_4009  ;SXhas
+    sub_list $400a,wrt_lbl_400a  ;SXhas
+
+    sub_list $41fc,wrt_lbl_41fc  ;SXhas
+    sub_list $41fd,wrt_lbl_41fd  ;SXhas
+    sub_list $41fe,wrt_lbl_41fe
+    sub_list $41ff,wrt_lbl_41ff
+  index_label cmd0x4100,0
+    sub_list $4100,wrt_lbl_4100
+    sub_list $4101,wrt_lbl_4101
+    sub_list $4102,wrt_lbl_4102
+    sub_list $4103,wrt_lbl_4103
+    sub_list $4104,wrt_lbl_4104
+    sub_list $4105,wrt_lbl_4105  ;SXhas
+    sub_list $4106,wrt_lbl_4106  ;SXhas
+    sub_list $4107,wrt_lbl_4107  ;SXhas
+    sub_list $4108,wrt_lbl_4108  ;SXhas
+    sub_list $4109,wrt_lbl_4109  ;SXhas
+    sub_list $410a,wrt_lbl_410a  ;SXhas
+
+    sub_list $42fc,wrt_lbl_42fc  ;SXhas
+    sub_list $42fd,wrt_lbl_42fd  ;SXhas
+    sub_list $42fe,wrt_lbl_42fe
+    sub_list $42ff,wrt_lbl_42ff
+  index_label cmd0x4200,0
+    sub_list $4200,wrt_lbl_4200
+    sub_list $4201,wrt_lbl_4201
+    sub_list $4202,wrt_lbl_4202
+    sub_list $4203,wrt_lbl_4203
+    sub_list $4204,wrt_lbl_4204
+    sub_list $4205,wrt_lbl_4205  ;SXhas
+    sub_list $4206,wrt_lbl_4206  ;SXhas
+    sub_list $4207,wrt_lbl_4207  ;SXhas
+    sub_list $4208,wrt_lbl_4208  ;SXhas
+    sub_list $4209,wrt_lbl_4209  ;SXhas
+    sub_list $420a,wrt_lbl_420a  ;SXhas
+
+    sub_list $43fc,wrt_lbl_43fc  ;SXhas
+    sub_list $43fd,wrt_lbl_43fd  ;SXhas
+    sub_list $43fe,wrt_lbl_43fe
+    sub_list $43ff,wrt_lbl_43ff
+  index_label cmd0x4300,0
+    sub_list $4300,wrt_lbl_4300
+    sub_list $4301,wrt_lbl_4301
+    sub_list $4302,wrt_lbl_4302
+    sub_list $4303,wrt_lbl_4303
+    sub_list $4304,wrt_lbl_4304
+    sub_list $4305,wrt_lbl_4305  ;SXhas
+    sub_list $4306,wrt_lbl_4306  ;SXhas
+    sub_list $4307,wrt_lbl_4307  ;SXhas
+    sub_list $4308,wrt_lbl_4308  ;SXhas
+    sub_list $4309,wrt_lbl_4309  ;SXhas
+    sub_list $430a,wrt_lbl_430a  ;SXhas
+
+    sub_list $45fe,wrt_lbl_45fe  ;v2.00
+    sub_list $45ff,wrt_lbl_45ff  ;v2.00
+  index_label cmd0x4500,0
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+
+    sub_list $46fc,wrt_lbl_46fc  ;SXhas
+    sub_list $46fd,wrt_lbl_46fd  ;SXhas
+    sub_list $46fe,wrt_lbl_46fe
+    sub_list $46ff,wrt_lbl_46ff
+  index_label cmd0x4600,0
+    sub_list $4600,wrt_lbl_4600
+    sub_list $4601,wrt_lbl_4601
+    sub_list $4602,wrt_lbl_4602
+    sub_list $4603,wrt_lbl_4603
+    sub_list $4604,wrt_lbl_4604
+    sub_list $4605,wrt_lbl_4605  ;SXhas
+    sub_list $4606,wrt_lbl_4606  ;SXhas
+    sub_list $4607,wrt_lbl_4607  ;SXhas
+    sub_list $4608,wrt_lbl_4608  ;SXhas
+    sub_list $4609,wrt_lbl_4609  ;SXhas
+    sub_list $460a,wrt_lbl_460a  ;SXhas
+
+    sub_list $47fe,wrt_lbl_47fe  ;v2.00
+    sub_list $47ff,wrt_lbl_47ff  ;v2.00
+  index_label cmd0x4700,0
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+
+  index_label cmd0x4c00,1
+    sub_list $4c01,wrt_ctor_4c01  ;.ctor adr.l
+  index_label cmd0x4d00,1
+    sub_list $4d01,wrt_dtor_4d01  ;.dtor adr.l
+
+    sub_list $50fc,wrt_lbl_50fc  ;SXhas
+    sub_list $50fd,wrt_lbl_50fd  ;SXhas
+    sub_list $50fe,wrt_lbl_50fe
+    sub_list $50ff,wrt_lbl_50ff
+  index_label cmd0x5000,0
+    sub_list $5000,wrt_lbl_5000
+    sub_list $5001,wrt_lbl_5001
+    sub_list $5002,wrt_lbl_5002
+    sub_list $5003,wrt_lbl_5003
+    sub_list $5004,wrt_lbl_5004
+    sub_list $5005,wrt_lbl_5005  ;SXhas
+    sub_list $5006,wrt_lbl_5006  ;SXhas
+    sub_list $5007,wrt_lbl_5007  ;SXhas
+    sub_list $5008,wrt_lbl_5008  ;SXhas
+    sub_list $5009,wrt_lbl_5009  ;SXhas
+    sub_list $500a,wrt_lbl_500a  ;SXhas
+
+    sub_list $51fc,wrt_lbl_51fc  ;SXhas
+    sub_list $51fd,wrt_lbl_51fd  ;SXhas
+    sub_list $51fe,wrt_lbl_51fe  ;v2.00 ??
+    sub_list $51ff,wrt_lbl_51ff
+  index_label cmd0x5100,0
+    sub_list $5100,wrt_lbl_5100
+    sub_list $5101,wrt_lbl_5101
+    sub_list $5102,wrt_lbl_5102
+    sub_list $5103,wrt_lbl_5103
+    sub_list $5104,wrt_lbl_5104
+    sub_list $5105,wrt_lbl_5105  ;SXhas
+    sub_list $5106,wrt_lbl_5106  ;SXhas
+    sub_list $5107,wrt_lbl_5107  ;SXhas
+    sub_list $5108,wrt_lbl_5108  ;SXhas
+    sub_list $5109,wrt_lbl_5109  ;SXhas
+    sub_list $510a,wrt_lbl_510a  ;SXhas
+
+    sub_list $52fc,wrt_lbl_52fc  ;SXhas
+    sub_list $52fd,wrt_lbl_52fd  ;SXhas
+    sub_list $52fe,wrt_lbl_52fe  ;v2.00 ??
+    sub_list $52ff,wrt_lbl_52ff
+  index_label cmd0x5200,0
+    sub_list $5200,wrt_lbl_5200
+    sub_list $5201,wrt_lbl_5201
+    sub_list $5202,wrt_lbl_5202
+    sub_list $5203,wrt_lbl_5203
+    sub_list $5204,wrt_lbl_5204
+    sub_list $5205,wrt_lbl_5205  ;SXhas
+    sub_list $5206,wrt_lbl_5206  ;SXhas
+    sub_list $5207,wrt_lbl_5207  ;SXhas
+    sub_list $5208,wrt_lbl_5208  ;SXhas
+    sub_list $5209,wrt_lbl_5209  ;SXhas
+    sub_list $520a,wrt_lbl_520a  ;SXhas
+
+    sub_list $53fc,wrt_lbl_53fc  ;SXhas
+    sub_list $53fd,wrt_lbl_53fd  ;SXhas
+    sub_list $53fe,wrt_lbl_53fe  ;v2.00 ??
+    sub_list $53ff,wrt_lbl_53ff
+  index_label cmd0x5300,0
+    sub_list $5300,wrt_lbl_5300
+    sub_list $5301,wrt_lbl_5301
+    sub_list $5302,wrt_lbl_5302
+    sub_list $5303,wrt_lbl_5303
+    sub_list $5304,wrt_lbl_5304
+    sub_list $5305,wrt_lbl_5305  ;SXhas
+    sub_list $5306,wrt_lbl_5306  ;SXhas
+    sub_list $5307,wrt_lbl_5307  ;SXhas
+    sub_list $5308,wrt_lbl_5308  ;SXhas
+    sub_list $5309,wrt_lbl_5309  ;SXhas
+    sub_list $530a,wrt_lbl_530a  ;SXhas
+
+    sub_list $55fe,wrt_lbl_55fe  ;v2.00 ??
+    sub_list $55ff,wrt_lbl_55ff  ;v2.00
+  index_label cmd0x5500,0
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+
+    sub_list $56fc,wrt_lbl_56fc  ;SXhas
+    sub_list $56fd,wrt_lbl_56fd  ;SXhas
+    sub_list $56fe,wrt_lbl_56fe  ;v2.00 ??
+    sub_list $56ff,wrt_lbl_56ff
+  index_label cmd0x5600,0
+    sub_list $5600,wrt_lbl_5600
+    sub_list $5601,wrt_lbl_5601
+    sub_list $5602,wrt_lbl_5602
+    sub_list $5603,wrt_lbl_5603
+    sub_list $5604,wrt_lbl_5604
+    sub_list $5605,wrt_lbl_5605  ;SXhas
+    sub_list $5606,wrt_lbl_5606  ;SXhas
+    sub_list $5607,wrt_lbl_5607  ;SXhas
+    sub_list $5608,wrt_lbl_5608  ;SXhas
+    sub_list $5609,wrt_lbl_5609  ;SXhas
+    sub_list $560a,wrt_lbl_560a  ;SXhas
+
+    sub_list $57fe,wrt_lbl_57fe  ;v2.00 ??
+    sub_list $57ff,wrt_lbl_57ff  ;v2.00
+  index_label cmd0x5700,0
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+    sub_list $0000,error
+
+  index_label cmd0x6500,1
+    sub_list $6501,wrt_lbl_6501
+    sub_list $6502,wrt_lbl_6502
+    sub_list $6503,wrt_lbl_6503
+    sub_list $6504,wrt_lbl_6504
+    sub_list $6505,wrt_lbl_6505  ;SXhas
+    sub_list $6506,wrt_lbl_6506  ;SXhas
+    sub_list $6507,wrt_lbl_6507  ;SXhas
+    sub_list $6508,wrt_lbl_6508  ;SXhas
+    sub_list $6509,wrt_lbl_6509  ;SXhas
+    sub_list $650a,wrt_lbl_650a  ;SXhas
+
+  index_label cmd0x6900,1
+    sub_list $6901,wrt_lbl_6901  ;v2.00
+    sub_list $6902,wrt_lbl_6902  ;v2.00
+    sub_list $6903,wrt_lbl_6903  ;v2.00
+    sub_list $6904,wrt_lbl_6904  ;v2.00
+    sub_list $6905,wrt_lbl_6905  ;SXhas
+    sub_list $6906,wrt_lbl_6906  ;SXhas
+    sub_list $6907,wrt_lbl_6907  ;SXhas
+    sub_list $6908,wrt_lbl_6908  ;SXhas
+    sub_list $6909,wrt_lbl_6909  ;SXhas
+    sub_list $690a,wrt_lbl_690a  ;SXhas
+
+  index_label cmd0x6b00,1
+    sub_list $6b01,wrt_lbl_6b01  ;v2.00
+    sub_list $6b02,wrt_lbl_6b02  ;v2.00
+    sub_list $6b03,wrt_lbl_6b03  ;v2.00
+    sub_list $6b04,wrt_lbl_6b04  ;v2.00
+    sub_list $6b05,wrt_lbl_6b05  ;SXhas
+    sub_list $6b06,wrt_lbl_6b06  ;SXhas
+    sub_list $6b07,wrt_lbl_6b07  ;SXhas
+    sub_list $6b08,wrt_lbl_6b08  ;SXhas
+    sub_list $6b09,wrt_lbl_6b09  ;SXhas
+    sub_list $6b0a,wrt_lbl_6b0a  ;SXhas
+
+    sub_list $80fc,psh_lbl_80fc  ;SXhas
+    sub_list $80fd,psh_lbl_80fd  ;SXhas
+    sub_list $80fe,psh_lbl_80fe  ;v2.00 ??
+    sub_list $80ff,psh_lbl_80ff
+  index_label cmd0x8000,0
+    sub_list $8000,psh_lbl_8000
+    sub_list $8001,psh_lbl_8001
+    sub_list $8002,psh_lbl_8002
+    sub_list $8003,psh_lbl_8003
+    sub_list $8004,psh_lbl_8004
+    sub_list $8005,psh_lbl_8005  ;SXhas
+    sub_list $8006,psh_lbl_8006  ;SXhas
+    sub_list $8007,psh_lbl_8007  ;SXhas
+    sub_list $8008,psh_lbl_8008  ;SXhas
+    sub_list $8009,psh_lbl_8009  ;SXhas
+    sub_list $800a,psh_lbl_800a  ;SXhas
+
+  index_label cmd0x9000,0
+    sub_list $9000,wrt_stk_9000
+  index_label cmd0x9100,0
+    sub_list $9100,wrt_stk_9100
+  index_label cmd0x9200,0
+    sub_list $9200,wrt_stk_9200
+  index_label cmd0x9300,0
+    sub_list $9300,wrt_stk_9300
+  index_label cmd0x9600,0
+    sub_list $9600,wrt_stk_9600
+  index_label cmd0x9900,0
+    sub_list $9900,wrt_stk_9900
+
+  index_label cmd0xa000,1
+    sub_list $a001,cal_stk_a001
+    sub_list $a002,cal_stk_a002
+    sub_list $a003,cal_stk_a003
+    sub_list $a004,cal_stk_a004
+    sub_list $a005,cal_stk_a005
+    sub_list $a006,cal_stk_a006
+    sub_list $a007,cal_stk_a007
+    sub_list $0000,error  ;$a008
+    sub_list $a009,cal_stk_a009
+    sub_list $a00a,cal_stk_a00a
+    sub_list $a00b,cal_stk_a00b
+    sub_list $a00c,cal_stk_a00c
+    sub_list $a00d,cal_stk_a00d
+    sub_list $a00e,cal_stk_a00e
+    sub_list $a00f,cal_stk_a00f
+    sub_list $a010,cal_stk_a010
+    sub_list $a011,cal_stk_a011
+    sub_list $a012,cal_stk_a012
+    sub_list $a013,cal_stk_a013
+    sub_list $a014,cal_stk_a014
+    sub_list $a015,cal_stk_a015
+    sub_list $a016,cal_stk_a016
+    sub_list $a017,cal_stk_a017
+    sub_list $a018,cal_stk_a018
+    sub_list $a019,cal_stk_a019
+    sub_list $a01a,cal_stk_a01a
+    sub_list $a01b,cal_stk_a01b
+    sub_list $a01c,cal_stk_a01c
+    sub_list $a01d,cal_stk_a01d
+    sub_list $0000,error
+    sub_list $0000,error
+
+    sub_list $b0ff,def_lbl_b0ff
+  index_label cmd0xb000,0
+
+    sub_list $b2fc,def_lbl_b2fc  ;SXhas
+    sub_list $b2fd,def_lbl_b2fd  ;SXhas
+    sub_list $b2fe,def_lbl_b2fe
+    sub_list $b2ff,def_lbl_b2ff
+  index_label cmd0xb200,0
+    sub_list $b200,def_lbl_b200
+    sub_list $b201,def_lbl_b201
+    sub_list $b202,def_lbl_b202
+    sub_list $b203,def_lbl_b203
+    sub_list $b204,def_lbl_b204
+    sub_list $b205,def_lbl_b205  ;SXhas
+    sub_list $b206,def_lbl_b206  ;SXhas
+    sub_list $b207,def_lbl_b207  ;SXhas
+    sub_list $b208,def_lbl_b208  ;SXhas
+    sub_list $b209,def_lbl_b209  ;SXhas
+    sub_list $b20a,def_lbl_b20a  ;SXhas
+
+  index_label cmd0xc000,1
+    sub_list $c001,obj_head_c001
+    sub_list $c002,obj_head_c002
+    sub_list $c003,obj_head_c003
+    sub_list $c004,obj_head_c004
+    sub_list $c005,obj_head_c005  ;SXhas
+    sub_list $c006,obj_head_c006  ;SXhas
+    sub_list $c007,obj_head_c007  ;SXhas
+    sub_list $c008,obj_head_c008  ;SXhas
+    sub_list $c009,obj_head_c009  ;SXhas
+    sub_list $c00a,obj_head_c00a  ;SXhas
+    sub_list $0000,error  ;$c00b
+    sub_list $c00c,obj_head_c00c  ;size.l 'ctor',0
+    sub_list $c00d,obj_head_c00d  ;size.l 'dtor',0
+
+  index_label cmd0xd000,0
+    sub_list $d000,obj_name
+
+  index_label cmd0xe000,0
+    sub_list $e000,set_exec_adr
+    sub_list $e001,req_obj
+    sub_list $0000,error  ;$e002
+    sub_list $0000,error  ;$e003
+    sub_list $0000,error  ;$e004
+    sub_list $0000,error  ;$e005
+    sub_list $0000,error  ;$e006
+    sub_list $0000,error  ;$e007
+    sub_list $0000,error  ;$e008
+    sub_list $0000,error  ;$e009
+    sub_list $0000,error  ;$e00a
+    sub_list $0000,error  ;$e00b
+    sub_list $e00c,do_ctor_e00c  ;.doctor
+    sub_list $e00d,do_dtor_e00d  ;.dodtor
+.endm
+
+OBJECT_COMMAND_MAX: .equ $e00d
+
