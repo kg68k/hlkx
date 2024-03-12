@@ -105,11 +105,6 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $45fe,wrt_lbl_45fe  ;v2.00
     sub_list $45ff,wrt_lbl_45ff  ;v2.00
   index_label cmd0x4500,0
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
 
     sub_list $46fc,wrt_lbl_46fc  ;SXhas
     sub_list $46fd,wrt_lbl_46fd  ;SXhas
@@ -131,11 +126,6 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $47fe,wrt_lbl_47fe  ;v2.00
     sub_list $47ff,wrt_lbl_47ff  ;v2.00
   index_label cmd0x4700,0
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
 
   index_label cmd0x4c00,1
     sub_list $4c01,wrt_ctor_4c01  ;.ctor adr.l
@@ -213,11 +203,6 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $55fe,wrt_lbl_55fe  ;v2.00 ??
     sub_list $55ff,wrt_lbl_55ff  ;v2.00
   index_label cmd0x5500,0
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
 
     sub_list $56fc,wrt_lbl_56fc  ;SXhas
     sub_list $56fd,wrt_lbl_56fd  ;SXhas
@@ -239,11 +224,6 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $57fe,wrt_lbl_57fe  ;v2.00 ??
     sub_list $57ff,wrt_lbl_57ff  ;v2.00
   index_label cmd0x5700,0
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
-    sub_list $0000,error
 
   index_label cmd0x6500,1
     sub_list $6501,wrt_lbl_6501
@@ -341,8 +321,6 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $a01b,cal_stk_a01b
     sub_list $a01c,cal_stk_a01c
     sub_list $a01d,cal_stk_a01d
-    sub_list $0000,error
-    sub_list $0000,error
 
     sub_list $b0ff,def_lbl_b0ff
   index_label cmd0xb000,0
