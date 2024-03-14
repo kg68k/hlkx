@@ -249,6 +249,12 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $6909,wrt_lbl_6909  ;SXhas
     sub_list $690a,wrt_lbl_690a  ;SXhas
 
+  index_label cmd0x6a00,1
+    sub_list $6a01,wrt_lbl_6a01
+    sub_list $6a02,wrt_lbl_6a02
+    sub_list $6a03,wrt_lbl_6a03
+    sub_list $6a04,wrt_lbl_6a04
+
   index_label cmd0x6b00,1
     sub_list $6b01,wrt_lbl_6b01  ;v2.00
     sub_list $6b02,wrt_lbl_6b02  ;v2.00
@@ -290,6 +296,8 @@ OBJECT_COMMAND_LIST: .macro jump_table,error
     sub_list $9600,wrt_stk_9600
   index_label cmd0x9900,0
     sub_list $9900,wrt_stk_9900
+  index_label cmd0x9a00,0
+    sub_list $9a00,wrt_stk_9a00
 
   index_label cmd0xa000,1
     sub_list $a001,cal_stk_a001

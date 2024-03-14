@@ -357,6 +357,11 @@ wrt_lbl_6908: .reg skip_com
 wrt_lbl_6909: .reg skip_com
 wrt_lbl_690a: .reg skip_com
 
+wrt_lbl_6a01: .reg skip_com
+wrt_lbl_6a02: .reg skip_com
+wrt_lbl_6a03: .reg skip_com
+wrt_lbl_6a04: .reg skip_com
+
 wrt_lbl_6b01: .reg skip_com
 wrt_lbl_6b02: .reg skip_com
 wrt_lbl_6b03: .reg skip_com
@@ -461,6 +466,7 @@ wrt_stk_9900:
 
 wrt_stk_9200:
 wrt_stk_9600:
+wrt_stk_9a00:
 		addq.l		#2,a0			* write stack (stk.l)
 		movea.l		(workbuf+CALC_STACK_PTR,pc),a3
 		cmp.l		(workbuf+CALC_STACK_BOT,pc),a3

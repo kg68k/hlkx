@@ -1824,6 +1824,10 @@ adrs_word_err:
 		PUSH		d0-d1/a0
 		pea		(adrs_word_msg,pc)
 		bra		@f
+d32_adrs_err:
+		PUSH		d0-d1/a0
+		pea		(d32_adrs_msg,pc)
+		bra		@f
 @@:
 		DOS		_PRINT
 		addq.l		#4,sp
@@ -3198,246 +3202,136 @@ wrt_lbl_650a_be	rts
 *
 *	write label
 *
+*	6a {01-04}  adr.l  label_no
+*
+*------------------------------------------------------------------------------
+
+wrt_lbl_6a01:
+  move.l obj_list_text_pos,d2
+wrt_lbl_6axx:
+  addq.l #2,a0  ;write long (label - adr(a))
+  add.l (a0)+,d2
+  move (a0)+,d0
+
+  check_section wrt_lbl_6axx
+
+  bsr get_xref_label  ;a3.l = xdef_list, d0.w = type, d1.l = value
+  sub.l d2,d1
+  tst d0
+  beq 1f  ;(定数-アドレス) はエラー
+  cmp #SECT_COMM,d0
+  beq @f  ;(.commラベル-アドレス) ならOK
+  cmp #SECT_STACK,d0
+  bls @f  ;(.text/.data/.bss/.stackラベル-アドレス) ならOK
+  1:
+    bsr d32_adrs_err
+  @@:
+  MOVEL_D1_A5PI_RTS
+wrt_lbl_6axx_be:
+  rts
+
+wrt_lbl_6a02:
+  move.l obj_list_data_pos,d2
+  bra wrt_lbl_6axx
+
+wrt_lbl_6a03:
+  move.l  obj_list_bss_pos,d2
+  bra wrt_lbl_6axx
+
+wrt_lbl_6a04:
+  move.l  obj_list_stack_pos,d2
+  bra wrt_lbl_6axx
+
+
+*------------------------------------------------------------------------------
+*
+*	write label
+*
 *	6b {01-0a}  adr.l  label_no
 *
 *------------------------------------------------------------------------------
 
-wrt_lbl_6b01:						* v2.00
+wrt_lbl_6b01:
+		move.l		obj_list_text_pos,d2
+wrt_lbl_6b:						* v2.00
 		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_text_pos,d2
+		add.l		(a0)+,d2
 		move.w		(a0)+,d0
 
-		check_section	wrt_lbl_6b01
+		check_section	wrt_lbl_6b
 
 		bsr		get_xref_label		* a3.l = xdef_list
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
 		tst.w		d0
-		beq		wrt_lbl_6b01_b1
+		beq		1f
 		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b01_b2
+		beq		2f
 		cmp.w		#SECT_STACK,d0
-		bls		wrt_lbl_6b01_b2
-wrt_lbl_6b01_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b01_b3
-wrt_lbl_6b01_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b01_b3	move.b		d1,(a5)+
-wrt_lbl_6b01_be	rts
+		bls		2f
+1:		bsr		adrs_byte_err
+		bra		3f
+2:		bsr		check_byte2_val		* -$80 ～ $7f
+3:		move.b		d1,(a5)+
+wrt_lbl_6b_be:	rts
+
+wrt_lbl_6b02:
+		move.l		obj_list_data_pos,d2
+		bra		wrt_lbl_6b
+
+wrt_lbl_6b03:
+		move.l		obj_list_bss_pos,d2
+		bra		wrt_lbl_6b
+
+wrt_lbl_6b04:
+		move.l		obj_list_stack_pos,d2
+		bra		wrt_lbl_6b
 
 
-wrt_lbl_6b02:						* v2.00
+wrt_lbl_6b05:
+		move.l		obj_list_rdata_pos,d2
+wrt_lbl_6b_r:						* v2.00
 		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_data_pos,d2
+		add.l		(a0)+,d2
 		move.w		(a0)+,d0
 
-		check_section	wrt_lbl_6b02
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		tst.w		d0
-		beq		wrt_lbl_6b02_b1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b02_b2
-		cmp.w		#SECT_STACK,d0
-		bls		wrt_lbl_6b02_b2
-wrt_lbl_6b02_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b02_b3
-wrt_lbl_6b02_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b02_b3	move.b		d1,(a5)+
-wrt_lbl_6b02_be	rts
-
-
-wrt_lbl_6b03:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_bss_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b03
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		tst.w		d0
-		beq		wrt_lbl_6b03_b1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b03_b2
-		cmp.w		#SECT_STACK,d0
-		bls		wrt_lbl_6b03_b2
-wrt_lbl_6b03_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b03_b3
-wrt_lbl_6b03_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b03_b3	move.b		d1,(a5)+
-wrt_lbl_6b03_be	rts
-
-
-wrt_lbl_6b04:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_stack_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b04
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		tst.w		d0
-		beq		wrt_lbl_6b04_b1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b04_b2
-		cmp.w		#SECT_STACK,d0
-		bls		wrt_lbl_6b04_b2
-wrt_lbl_6b04_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b04_b3
-wrt_lbl_6b04_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b04_b3	move.b		d1,(a5)+
-wrt_lbl_6b04_be	rts
-
-
-wrt_lbl_6b05:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rdata_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b05
+		check_section	wrt_lbl_6b_r
 
 		bsr		get_xref_label		* a3.l = xdef_list
 							* d0.w = type
 							* d1.l = value
 		sub.l		d2,d1
 		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b05_b1
+		beq		1f
 		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b05_b2
-wrt_lbl_6b05_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b05_b3
-wrt_lbl_6b05_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b05_b3	move.b		d1,(a5)+
-wrt_lbl_6b05_be	rts
+		bhi		2f
+1:		bsr		adrs_byte_err
+		bra		3f
+2:		bsr		check_byte2_val		* -$80 ～ $7f
+3:		move.b		d1,(a5)+
+wrt_lbl_6b_r_be:
+		rts
 
+wrt_lbl_6b06:
+		move.l		obj_list_rbss_pos,d2
+		bra		wrt_lbl_6b_r
 
-wrt_lbl_6b06:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rbss_pos,d2
-		move.w		(a0)+,d0
+wrt_lbl_6b07:
+		move.l		obj_list_rstack_pos,d2
+		bra		wrt_lbl_6b_r
 
-		check_section	wrt_lbl_6b06
+wrt_lbl_6b08:
+		move.l		obj_list_rldata_pos,d2
+		bra		wrt_lbl_6b_r
 
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b06_b1
-		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b06_b2
-wrt_lbl_6b06_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b06_b3
-wrt_lbl_6b06_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b06_b3	move.b		d1,(a5)+
-wrt_lbl_6b06_be	rts
+wrt_lbl_6b09:
+		move.l		obj_list_rlbss_pos,d2
+		bra		wrt_lbl_6b_r
 
-
-wrt_lbl_6b07:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rstack_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b07
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b07_b1
-		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b07_b2
-wrt_lbl_6b07_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b07_b3
-wrt_lbl_6b07_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b07_b3	move.b		d1,(a5)+
-wrt_lbl_6b07_be	rts
-
-
-wrt_lbl_6b08:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rldata_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b08
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b08_b1
-		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b08_b2
-wrt_lbl_6b08_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b08_b3
-wrt_lbl_6b08_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b08_b3	move.b		d1,(a5)+
-wrt_lbl_6b08_be	rts
-
-
-wrt_lbl_6b09:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rlbss_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b09
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		cmp.w		#SECT_COMM,d0
-		bhi		wrt_lbl_6b09_b1
-		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b09_b2
-wrt_lbl_6b09_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b09_b3
-wrt_lbl_6b09_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b09_b3	move.b		d1,(a5)+
-wrt_lbl_6b09_be	rts
-
-
-wrt_lbl_6b0a:						* v2.00
-		addq.l		#2,a0			* write byte (label - adr(a))
-		move.l		(a0)+,d2
-		add.l		obj_list_rlstack_pos,d2
-		move.w		(a0)+,d0
-
-		check_section	wrt_lbl_6b0a
-
-		bsr		get_xref_label		* a3.l = xdef_list
-							* d0.w = type
-							* d1.l = value
-		sub.l		d2,d1
-		cmp.w		#SECT_COMM,d0
-		beq		wrt_lbl_6b0a_b1
-		cmp.w		#SECT_STACK,d0
-		bhi		wrt_lbl_6b0a_b2
-wrt_lbl_6b0a_b1	bsr		adrs_byte_err
-		bra		wrt_lbl_6b0a_b3
-wrt_lbl_6b0a_b2	bsr		check_byte2_val		* -$80 ～ $7f
-wrt_lbl_6b0a_b3	move.b		d1,(a5)+
-wrt_lbl_6b0a_be	rts
+wrt_lbl_6b0a:
+		move.l		obj_list_rlstack_pos,d2
+		bra		wrt_lbl_6b_r
 
 
 *------------------------------------------------------------------------------
@@ -3667,6 +3561,7 @@ wrt_stk_9100_be:
 
 wrt_stk_9200:
 wrt_stk_9600:
+wrt_stk_9a00:
 		addq.l		#2,a0			* write stack (stk.l)
 		movea.l		(workbuf+CALC_STACK_PTR,pc),a3
 		cmp.l		(workbuf+CALC_STACK_BOT,pc),a3
@@ -4477,6 +4372,7 @@ illegal_scdinfo:.dc.b		'不正なSCD情報 in ',0
 
 adrs_byte_msg:	.dc.b		'アドレス属性シンボルの値をバイトサイズで出力 in ',0
 adrs_word_msg:	.dc.b		'アドレス属性シンボルの値をワードサイズで出力 in ',0
+d32_adrs_msg:	.dc.b		'32ビットディスプレースメントにアドレス属性シンボルの値を出力 in ',0
 
 division_msg:	.dc.b		'ゼロ除算 in ',0
 

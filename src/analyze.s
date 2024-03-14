@@ -112,6 +112,7 @@ wrt_stk_9200:
 wrt_stk_9300:
 wrt_stk_9600:
 wrt_stk_9900:
+wrt_stk_9a00:
 cal_stk_a001:
 cal_stk_a002:
 cal_stk_a003:
@@ -303,6 +304,10 @@ wrt_lbl_6907:	* SXhas
 wrt_lbl_6908:	* SXhas
 wrt_lbl_6909:	* SXhas
 wrt_lbl_690a:	* SXhas
+wrt_lbl_6a01:
+wrt_lbl_6a02:
+wrt_lbl_6a03:
+wrt_lbl_6a04:
 wrt_lbl_6b01:	* v2.00
 wrt_lbl_6b02:	* v2.00
 wrt_lbl_6b03:	* v2.00
@@ -476,7 +481,7 @@ index_table:
 		.dc	(cmd0x6500-command_table)
 		.dc	0,0,0
 		.dc	(cmd0x6900-command_table)
-		.dc	0
+		.dc	(cmd0x6a00-command_table)
 		.dc	(cmd0x6b00-command_table)
 		.dc	0,0,0,0
 		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0		;$7x??
@@ -490,7 +495,8 @@ index_table:
 		.dc	(cmd0x9600-command_table)
 		.dc	0,0
 		.dc	(cmd0x9900-command_table)
-		.dc	0,0,0,0,0,0
+		.dc	(cmd0x9a00-command_table)
+		.dc	0,0,0,0,0
 		.dc	(cmd0xa000-command_table)		;$ax??
 		.dc	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 		.dc	(cmd0xb000-command_table)		;$bx??
