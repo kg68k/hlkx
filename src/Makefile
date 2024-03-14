@@ -3,10 +3,11 @@
 AS = has060
 ASFLAGS = -c4
 
+ifndef LD
+LD = hlk
+endif
 ifeq ($(findstring hlkx,$(LD)),hlkx)
 USE_HLKX = true
-else
-LD = hlk
 endif
 
 U8TOSJ = u8tosj
