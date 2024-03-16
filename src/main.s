@@ -1,6 +1,6 @@
 		.title		main control module
 
-VERSION:	.reg	'0.0.0'
+VERSION:	.reg	'1.0.0'
 
 
 * Include File -------------------------------- *
