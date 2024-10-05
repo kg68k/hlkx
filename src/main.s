@@ -1,6 +1,6 @@
 		.title		main control module
 
-VERSION:	.reg	'1.0.0'
+VERSION:	.reg	'1.1.0'
 
 
 * Include File -------------------------------- *
@@ -993,12 +993,14 @@ ana_opt_long_opt_loop:
 		jmp		(long_opt_table,pc,d1.w)
 
 long_opt_table:
-@@:		.dc		str_help-@b	,print_usage-@b
-		.dc		str_quiet-@b	,ana_opt_b550-@b
-		.dc		str_verbose-@b	,ana_opt_b400-@b
-		.dc		str_version-@b	,print_version-@b
-		.dc		str_makemcs-@b,	,option_makemcs-@b
-		.dc		0
+@@:
+  .dc str_help-@b,   print_usage-@b
+  .dc str_quiet-@b,  ana_opt_b550-@b
+  .dc str_verbose-@b,ana_opt_b400-@b
+  .dc str_version-@b,print_version-@b
+  .dc str_makemcs-@b,option_makemcs-@b
+  .dc str_omitbss-@b,option_omitbss-@b
+  .dc 0
 
 
 ana_opt_b30_:
@@ -1293,6 +1295,10 @@ ana_opt_check_an_rn:
 		subq.l		#1,a2
 @@:		bra		ana_opt_next
 
+* --omit-bss
+option_omitbss:
+  st (OMIT_BSS_FLAG,a6)
+  bra ana_opt_next
 
 * -e num (set align)
 ana_opt_b700:
@@ -1890,6 +1896,7 @@ usage_msg:	.dc.b		'usege: hlkx [switch] file [+file] ...',CRLF
 		.dc.b		'	-z / --quiet	-v/--verbose オプションを取り消す',CRLF
 		.dc.b		'	-v / --verbose	詳細表示',CRLF
 		.dc.b		'	--makemcs	MACS(.mcs)形式ファイルの作成',CRLF
+		.dc.b		'	--omit-bss	.r 形式ファイルの作成時にBSSを出力しない',CRLF
 		.dc.b		'	--version	バージョン表示',CRLF
 		.dc.b		CRLF
 		.dc.b		'	環境変数 HLK の内容がコマンドラインの手前に挿入されます。',CRLF
@@ -1901,6 +1908,7 @@ str_quiet:	.dc.b		'quiet',0
 str_verbose:	.dc.b		'verbose',0
 str_version:	.dc.b		'version',0
 str_makemcs:	.dc.b		'makemcs',0
+str_omitbss:	.dc.b		'omit-bss',0
 
 too_many_args:	.dc.b		'引数が多すぎます。',CRLF
 		.dc.b		0

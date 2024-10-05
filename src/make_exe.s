@@ -496,6 +496,10 @@ make_exe_b20:
 		bne		make_exe_err_adr
 
 make_exe_r_no_check:
+  tst.b (OMIT_BSS_FLAG,a0)
+  beq @f
+    clr.l (X_BssSize,a3)
+  @@:
 		move.l		(X_BssSize,a3),d0	;bssは確保できるか？
 		cmp.l		d0,d7
 		bcs		malloc_err
