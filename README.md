@@ -2,6 +2,9 @@
 SILK Hi-Speed Linker v3.01の改造版、HLK evolutionの後継バージョンです。
 無保証につき各自の責任で使用して下さい。
 
+kaiseki.txtの追補として、HAS.X v2.55 (HAS255.LZH)に同梱されているSCDKAISEKI.DOCを
+ファイル名、文字コード、改行コードを変更して収録しました。
+
 
 ## Build
 PCやネット上での取り扱いを用意にするために、src/内のファイルはUTF-8で記述されています。
@@ -39,7 +42,8 @@ HLKXにおける改造部分の著作権は私にあります。
 
 とします(hlk-3.01 readme.doc【配布規定】の項より引用)。
 
+scdkaiseki.txt(元ファイル名SCDKAISEKI.DOC)は中村祐一氏によるもので、PDDとされています。
+
 
 ## Author
-TcbnErik / 立花@桑島技研  
-https://github.com/kg68k/hlkx
+TcbnErik / https://github.com/kg68k/hlkx

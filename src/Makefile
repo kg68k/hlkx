@@ -24,7 +24,7 @@ HLK_X = hlkx.x
 SRCS = main.s getarg.o analyze.o label.o object.o make_exe.o make_map.o roffset.o file.o string.o
 OBJS = $(SRCS:.s=.o)
 
-TXTS = hlkx.txt kaiseki.txt CHANGELOG.txt
+TXTS = CHANGELOG.txt hlkx.txt kaiseki.txt scdkaiseki.txt
 
 HLK_ZIP	= hlkx.zip
 
@@ -43,12 +43,19 @@ $(HLK_ZIP): $(HLK_R) $(TXTS)
 	zip -9 $@ $^
 
 hlkx.txt: $(SRC_DIR)/../hlkx.txt
+	rm -f $@
 	$(U8TOSJ) < $^ > $@
 
 kaiseki.txt: $(SRC_DIR)/../kaiseki.txt
+	rm -f $@
+	$(U8TOSJ) < $^ > $@
+
+scdkaiseki.txt: $(SRC_DIR)/../scdkaiseki.txt
+	rm -f $@
 	$(U8TOSJ) < $^ > $@
 
 CHANGELOG.txt: $(SRC_DIR)/../CHANGELOG.md
+	rm -f $@
 	$(U8TOSJ) < $^ > $@
 
 #
